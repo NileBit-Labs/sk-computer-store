@@ -1,3 +1,5 @@
+// src/components/Common/ProductItem.tsx
+
 "use client";
 import React from "react";
 import Image from "next/image";

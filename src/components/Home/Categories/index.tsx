@@ -70,11 +70,10 @@ const Categories = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                Categories
+                <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
+                  Categories
+                </h2>
               </span>
-              <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
-                Browse by Category
-              </h2>
             </div>
 
             <div className="flex items-center gap-3">

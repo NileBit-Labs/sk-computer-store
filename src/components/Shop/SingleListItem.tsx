@@ -1,3 +1,5 @@
+// src/components/Shop/SingleListItem.tsx
+
 "use client";
 import React from "react";
 
