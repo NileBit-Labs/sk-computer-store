@@ -1,5 +1,9 @@
+"use client"
 export const apiVersion =
   process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2025-02-05'
+
+
+console.log('NEXT_PUBLIC_SANITY_DATASET:', process.env.NEXT_PUBLIC_SANITY_DATASET);
 
 export const dataset = assertValue(
   process.env.NEXT_PUBLIC_SANITY_DATASET,
