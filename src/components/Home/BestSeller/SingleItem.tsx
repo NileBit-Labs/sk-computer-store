@@ -8,7 +8,7 @@ import { updateQuickView } from "@/redux/features/quickView-slice";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import Image from "next/image";
 import Link from "next/link";
-import { addItemToWishlist } from "@/redux/features/wishlist-slice";
+import { addItemToFavourites } from "@/redux/features/favourites-slice";
 
 const SingleItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
@@ -29,9 +29,9 @@ const SingleItem = ({ item }: { item: Product }) => {
     );
   };
 
-  const handleItemToWishList = () => {
+  const handleItemToFavourites = () => {
     dispatch(
-      addItemToWishlist({
+      addItemToFavourites({
         ...item,
         status: "available",
         quantity: 1,
@@ -164,7 +164,7 @@ const SingleItem = ({ item }: { item: Product }) => {
 
           <button
             onClick={() => {
-              handleItemToWishList();
+              handleItemToFavourites();
             }}
             aria-label="button for add to fav"
             id="addFavOne"

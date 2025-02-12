@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type InitialState = {
-  items: WishListItem[];
+  items: FavouritesItem[];
 };
 
-type WishListItem = {
+type FavouritesItem = {
   id: number;
   title: string;
   price: number;
@@ -21,11 +21,11 @@ const initialState: InitialState = {
   items: [],
 };
 
-export const wishlist = createSlice({
-  name: "wishlist",
+export const Favourites = createSlice({
+  name: "Favourites",
   initialState,
   reducers: {
-    addItemToWishlist: (state, action: PayloadAction<WishListItem>) => {
+    addItemToFavourites: (state, action: PayloadAction<FavouritesItem>) => {
       const { id, title, price, quantity, imgs, discountedPrice, status } =
         action.payload;
       const existingItem = state.items.find((item) => item.id === id);
@@ -44,20 +44,20 @@ export const wishlist = createSlice({
         });
       }
     },
-    removeItemFromWishlist: (state, action: PayloadAction<number>) => {
+    removeItemFromFavourites: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
       state.items = state.items.filter((item) => item.id !== itemId);
     },
 
-    removeAllItemsFromWishlist: (state) => {
+    removeAllItemsFromFavourites: (state) => {
       state.items = [];
     },
   },
 });
 
 export const {
-  addItemToWishlist,
-  removeItemFromWishlist,
-  removeAllItemsFromWishlist,
-} = wishlist.actions;
-export default wishlist.reducer;
+  addItemToFavourites,
+  removeItemFromFavourites,
+  removeAllItemsFromFavourites,
+} = Favourites.actions;
+export default Favourites.reducer;

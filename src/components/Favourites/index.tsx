@@ -4,17 +4,19 @@ import Breadcrumb from "../Common/Breadcrumb";
 import { useAppSelector } from "@/redux/store";
 import SingleItem from "./SingleItem";
 
-export const Wishlist = () => {
-  const wishlistItems = useAppSelector((state) => state.wishlistReducer.items);
+export const Favourites = () => {
+  const FavouritesItems = useAppSelector(
+    (state) => state.FavouritesReducer.items
+  );
 
   return (
     <>
-      <Breadcrumb title={"Wishlist"} pages={["Wishlist"]} />
+      <Breadcrumb title={"Favourites"} pages={["Favourites"]} />
       <section className="overflow-hidden py-20 bg-gray-2">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex flex-wrap items-center justify-between gap-5 mb-7.5">
-            <h2 className="font-medium text-dark text-2xl">Your Wishlist</h2>
-            <button className="text-blue">Clear Wishlist Cart</button>
+            <h2 className="font-medium text-dark text-2xl">Your Favourites</h2>
+            <button className="text-blue">Clear Favourites Cart</button>
           </div>
 
           <div className="bg-white rounded-[10px] shadow-1">
@@ -41,7 +43,7 @@ export const Wishlist = () => {
                 </div>
 
                 {/* <!-- wish item --> */}
-                {wishlistItems.map((item, key) => (
+                {FavouritesItems.map((item, key) => (
                   <SingleItem item={item} key={key} />
                 ))}
               </div>

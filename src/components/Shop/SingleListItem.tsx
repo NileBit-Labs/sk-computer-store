@@ -7,7 +7,7 @@ import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { updateQuickView } from "@/redux/features/quickView-slice";
 import { addItemToCart } from "@/redux/features/cart-slice";
-import { addItemToWishlist } from "@/redux/features/wishlist-slice";
+import { addItemToFavourites } from "@/redux/features/favourites-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
@@ -32,9 +32,9 @@ const SingleListItem = ({ item }: { item: Product }) => {
     );
   };
 
-  const handleItemToWishList = () => {
+  const handleItemToFavourites = () => {
     dispatch(
-      addItemToWishlist({
+      addItemToFavourites({
         ...item,
         status: "available",
         quantity: 1,
@@ -88,7 +88,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
             </button>
 
             <button
-              onClick={() => handleItemToWishList()}
+              onClick={() => handleItemToFavourites()}
               aria-label="button for favorite select"
               className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
             >

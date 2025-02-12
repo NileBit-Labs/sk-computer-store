@@ -299,7 +299,7 @@ const Header = () => {
 
                 <li className="py-4">
                   <Link
-                    href="/wishlist"
+                    href="/Favourites"
                     className="flex items-center gap-1.5 font-medium text-custom-sm text-dark hover:text-blue"
                   >
                     <svg
