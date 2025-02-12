@@ -7,7 +7,7 @@ const HeaderLogo = () => {
     <Link href="/" className="flex items-center gap-3 group">
       <div className="flex flex-col absolute">
         <Image
-          src="/images/logo/SK_logo.jpg"
+          src="/images/logo/SK_logo_green.jpg"
           alt="SK Logo"
           width={150}
           height={150}
