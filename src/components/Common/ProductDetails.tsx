@@ -3,11 +3,13 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/redux/features/cart-slice";
-import { addItemToWishlist } from "@/redux/features/wishlist-slice";
+import { addItemToFavourites } from "@/redux/features/favourites-slice";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.productDetails);
+  const product = useSelector(
+    (state: { productDetails: any }) => state.productDetails
+  );
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
@@ -21,9 +23,9 @@ const ProductDetails = () => {
     );
   };
 
-  const handleAddToWishlist = () => {
+  const handleAddToFavourites = () => {
     dispatch(
-      addItemToWishlist({
+      addItemToFavourites({
         ...product,
         status: "available",
         quantity: 1,
@@ -124,7 +126,7 @@ const ProductDetails = () => {
                 Add to Cart
               </button>
               <button
-                onClick={handleAddToWishlist}
+                onClick={handleAddToFavourites}
                 className="p-3 border rounded-md hover:text-blue transition-colors"
               >
                 <svg className="w-6 h-6 fill-current" viewBox="0 0 16 16">

@@ -1,19 +1,19 @@
 import React from "react";
-import { Wishlist } from "@/components/Wishlist";
+import { Favourites } from "@/components/Favourites";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Wishlist Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Wishlist Page for NextCommerce Template",
+  title: "Favourites Page | NextCommerce Nextjs E-commerce template",
+  description: "This is Favourites Page for NextCommerce Template",
   // other metadata
 };
 
-const WishlistPage = () => {
+const FavouritesesPage = () => {
   return (
     <main>
-      <Wishlist />
+      <Favourites />
     </main>
   );
 };
 
-export default WishlistPage;
+export default FavouritesesPage;
