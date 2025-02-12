@@ -6,6 +6,8 @@
     "axe/forms": "off",
     "axe/name-role-value": "off",
     "typescript-config/strict": "off",
-    "typescript-config/consistent-casing": "off"
+    "typescript-config/consistent-casing": "off",
+    "meta-viewport": "off",
+    "no-inline-styles": "off"
   }
 }

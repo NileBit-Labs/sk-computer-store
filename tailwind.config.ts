@@ -59,6 +59,18 @@ const config: Config = {
         "light-4": "#C3CEF6",
         "light-5": "#E1E8FF",
       },
+      emerald: {
+        50: "#ecfdf5",
+        100: "#d1fae5",
+        200: "#a7f3d0",
+        300: "#6ee7b7",
+        400: "#34d399",
+        500: "#10b981",
+        600: "#059669",
+        700: "#047857",
+        800: "#065f46",
+        900: "#064e3b",
+      },
       red: {
         DEFAULT: "#F23030",
         dark: "#E10E0E",
@@ -70,9 +82,9 @@ const config: Config = {
         "light-6": "#FEF3F3",
       },
       green: {
-        DEFAULT: "#22AD5C",
-        dark: "#1A8245",
-        light: "#2CD673",
+        DEFAULT: "#00ada9",
+        dark: "00ada9",
+        light: "00ada9",
         "light-2": "#57DE8F",
         "light-3": "#82E6AC",
         "light-4": "#ACEFC8",
@@ -247,4 +259,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;
