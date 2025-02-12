@@ -5,12 +5,12 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-50 relative">
+    <footer className="bg-[#00918e] relative">
       {/* Developer Signature */}
       <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8">
         <a
           href="#"
-          className="text-sm text-gray-600 flex items-center gap-2 hover:text-gray-800 transition-colors underline"
+          className="text-sm text-white flex items-center gap-2 hover:text-teal-200 transition-colors underline"
         >
           <Code size={16} />
           <span>
@@ -23,34 +23,34 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Company Info */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-white">
               SK Computer Store
             </h3>
-            <p className="text-sm text-gray-600 max-w-sm">
+            <p className="text-sm text-white max-w-sm">
               Empowering innovation through technology. We create solutions that
               make a difference.
             </p>
             <div className="space-y-4">
-              <div className="flex items-center gap-3 text-sm text-gray-600">
-                <MapPin size={18} className="text-blue-600 flex-shrink-0" />
-                <span>
+              <div className="flex items-center gap-3 text-sm text-white">
+                <MapPin size={18} className="text-teal-200 flex-shrink-0" />
+                <a className="hover:underline transition-colors">
                   Room B309 University Plaza, Wandegeya, Kampala, Uganda.
-                </span>
+                </a>
               </div>
-              <div className="flex items-center gap-3 text-sm text-gray-600">
-                <Phone size={18} className="text-blue-600 flex-shrink-0" />
+              <div className="flex items-center gap-3 text-sm text-white">
+                <Phone size={18} className="text-teal-200 flex-shrink-0" />
                 <a
                   href="tel:+256394822154"
-                  className="hover:text-blue-600 transition-colors"
+                  className="hover:underline transition-colors"
                 >
                   (+256) 394-822-154
                 </a>
               </div>
-              <div className="flex items-center gap-3 text-sm text-gray-600">
-                <Mail size={18} className="text-blue-600 flex-shrink-0" />
+              <div className="flex items-center gap-3 text-sm text-white">
+                <Mail size={18} className="text-teal-200 flex-shrink-0" />
                 <a
                   href="mailto:solokigezi777@gmail.com"
-                  className="hover:text-blue-600 transition-colors"
+                  className="hover:underline transition-colors"
                 >
                   solokigezi777@gmail.com
                 </a>
@@ -60,7 +60,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="lg:ml-auto">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">
+            <h3 className="text-lg font-semibold text-white mb-6">
               Quick Links
             </h3>
             <nav className="flex flex-col space-y-4">
@@ -69,7 +69,7 @@ const Footer = () => {
                   <a
                     key={item}
                     href="#"
-                    className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                    className="text-sm text-white hover:underline transition-colors"
                   >
                     {item}
                   </a>
@@ -80,9 +80,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">
-              Resources
-            </h3>
+            <h3 className="text-lg font-semibold text-white mb-6">Resources</h3>
             <nav className="flex flex-col space-y-4">
               {[
                 "Privacy Policy",
@@ -94,7 +92,7 @@ const Footer = () => {
                 <a
                   key={item}
                   href="#"
-                  className="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                  className="text-sm text-white hover:underline transition-colors"
                 >
                   {item}
                 </a>
@@ -104,9 +102,9 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
+        <div className="mt-16 pt-8 border-t border-white">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-white">
               © {year} SK Computer Store. All rights reserved.
             </p>
 
@@ -117,7 +115,7 @@ const Footer = () => {
                   <a
                     key={platform}
                     href="#"
-                    className="text-gray-400 hover:text-blue-600 transition-colors"
+                    className="text-white hover:text-teal-200 transition-colors"
                     aria-label={platform}
                   >
                     <span className="sr-only">{platform}</span>

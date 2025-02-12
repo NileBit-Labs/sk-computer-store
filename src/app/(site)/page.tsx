@@ -2,13 +2,12 @@ import Home from "@/components/Home";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "NextCommerce | Nextjs E-commerce template",
-  description: "This is Home for NextCommerce Template",
+  title: "SK Computer Store",
+  description: "This is Home for SK Computer Store",
   // other metadata
 };
 
 export default function HomePage() {
-
   return (
     <>
       <Home />

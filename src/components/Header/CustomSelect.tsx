@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-const CustomSelect = ({ options }) => {
+interface Option {
+  label: string;
+  value: string;
+}
+
+interface CustomSelectProps {
+  options: Option[];
+  className?: string;
+}
+
+const CustomSelect: React.FC<CustomSelectProps> = ({
+  options,
+  className = "",
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
@@ -8,16 +21,17 @@ const CustomSelect = ({ options }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: Option) => {
     setSelectedOption(option);
     toggleDropdown();
   };
 
   useEffect(() => {
     // closing modal while clicking outside
-    function handleClickOutside(event) {
-      if (!event.target.closest(".dropdown-content")) {
-        toggleDropdown();
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".dropdown-content")) {
+        setIsOpen(false);
       }
     }
 
@@ -28,10 +42,13 @@ const CustomSelect = ({ options }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen]); // Added isOpen to dependency array
 
   return (
-    <div className="dropdown-content custom-select relative" style={{ width: "200px" }}>
+    <div
+      className={`dropdown-content custom-select relative ${className}`}
+      style={{ width: "200px" }}
+    >
       <div
         className={`select-selected whitespace-nowrap ${
           isOpen ? "select-arrow-active" : ""

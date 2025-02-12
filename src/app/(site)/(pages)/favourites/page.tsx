@@ -3,8 +3,8 @@ import { Favourites } from "@/components/Favourites";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Favourites Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Favourites Page for NextCommerce Template",
+  title: "Favourites Page | SK Computer Store",
+  description: "This is Favourites Page for SK Computer Store",
   // other metadata
 };
 
