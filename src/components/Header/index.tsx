@@ -166,7 +166,7 @@ const Header = () => {
                   href="/contact"
                   className="text-white hover:text-teal-200 hover:underline transition-colors"
                 >
-                  Contact Us
+                  About Us
                 </Link>
               </li>
             </ul>

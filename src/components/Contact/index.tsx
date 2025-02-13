@@ -1,12 +1,12 @@
 import React from "react";
-import Breadcrumb from "../Common/Breadcrumb";
+// import Breadcrumb from "../Common/Breadcrumb";
 
 const Contact = () => {
   return (
     <>
-      <Breadcrumb title={"Contact"} pages={["contact"]} />
+      {/* <Breadcrumb title={"Contact"} pages={["contact"]} /> */}
 
-      <section className="overflow-hidden py-20 bg-gray-2">
+      <section className="overflow-hidden py-20 bg-gray-2 mt-30">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex flex-col xl:flex-row gap-7.5">
             <div className="xl:max-w-[370px] w-full bg-white rounded-xl shadow-1">

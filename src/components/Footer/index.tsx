@@ -22,7 +22,7 @@ const Footer = () => {
       <div className="mx-auto max-w-7xl px-4 pb-12 pt-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Company Info */}
-          <div className="space-y-6">
+          <div className="space-y-6 lg:col-start-1 lg:col-end-2">
             <h3 className="text-lg font-semibold text-white">
               SK Computer Store
             </h3>
@@ -59,16 +59,16 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="lg:ml-auto">
+          <div className="lg:col-start-3 lg:col-end-4">
             <h3 className="text-lg font-semibold text-white mb-6">
               Quick Links
             </h3>
             <nav className="flex flex-col space-y-4">
-              {["About Us", "Services", "Projects", "Blog", "Contact"].map(
+              {["About Us", "Privacy Policy", "Terms of Service", "FAQ"].map(
                 (item) => (
                   <a
                     key={item}
-                    href="#"
+                    href="/contact"
                     className="text-sm text-white hover:underline transition-colors"
                   >
                     {item}
@@ -79,7 +79,7 @@ const Footer = () => {
           </div>
 
           {/* Resources */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold text-white mb-6">Resources</h3>
             <nav className="flex flex-col space-y-4">
               {[
@@ -98,7 +98,7 @@ const Footer = () => {
                 </a>
               ))}
             </nav>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Bar */}
