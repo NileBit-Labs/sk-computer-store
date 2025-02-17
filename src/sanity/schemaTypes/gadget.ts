@@ -1,8 +1,8 @@
-import { defineField, defineType, Preview } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const gadget = defineType({
   name: "gadget",
-  title: "gadget",
+  title: "Gadget",
   type: "document",
   fields: [
     defineField({
@@ -11,7 +11,6 @@ export const gadget = defineType({
       type: "string",
       validation: (Rule) => Rule.required(),
     }),
-
     defineField({
       name: "description",
       title: "Description",
@@ -26,7 +25,10 @@ export const gadget = defineType({
     defineField({
       name: "image",
       title: "Image",
-      type: "image", // ✅ lowercase "image"
+      type: "image",
+      options: {
+        hotspot: true, // Enables hotspot for better image cropping
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -41,11 +43,10 @@ export const gadget = defineType({
       type: "number",
       validation: (Rule) => Rule.min(0),
     }),
-
   ],
   preview: {
     select: {
-      title: "name",
+      title: "title", // Changed from "name" to "title" to match field name
       media: "image",
       subtitle: "price",
     },
@@ -54,7 +55,6 @@ export const gadget = defineType({
         title: selection.title,
         subtitle: `$${selection.subtitle}`,
         media: selection.media,
-
       }
     }
   }
