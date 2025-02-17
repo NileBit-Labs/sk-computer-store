@@ -8,6 +8,7 @@
     "typescript-config/strict": "off",
     "typescript-config/consistent-casing": "off",
     "meta-viewport": "off",
-    "no-inline-styles": "off"
+    "no-inline-styles": "off",
+    "axe/parsing": "off"
   }
 }

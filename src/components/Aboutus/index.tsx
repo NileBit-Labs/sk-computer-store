@@ -1,14 +1,237 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
-import Breadcrumb from "../Common/Breadcrumb";
 
-const Contact = () => {
+const AboutUs = () => {
+  const stats = [
+    { number: "6+", text: "Years of Excellence" },
+    { number: "2000+", text: "Satisfied Customers" },
+    { number: "5000+", text: "Products Sold" },
+    { number: "24/7", text: "Support Available" },
+  ];
+
+  const values = [
+    {
+      title: "Innovation",
+      description:
+        "Constantly evolving and adapting to the latest technology trends",
+      icon: (
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
+        </svg>
+      ),
+    },
+    {
+      title: "Quality",
+      description:
+        "Committed to delivering only the highest quality products and services",
+      icon: (
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+          />
+        </svg>
+      ),
+    },
+    {
+      title: "Integrity",
+      description:
+        "Building trust through honest and transparent business practices",
+      icon: (
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+          />
+        </svg>
+      ),
+    },
+    {
+      title: "Customer First",
+      description: "Prioritizing customer satisfaction in everything we do",
+      icon: (
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <>
-      <Breadcrumb title={"Contact"} pages={["contact"]} />
+      {/* Hero Section */}
+      <section className="relative bg-white py-15 text-[#00918e] overflow-hidden mt-40">
+        <div className="absolute inset-0 bg-gradient-to-r from-gray to-white opacity-90"></div>
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0 relative z-10">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Empowering Technology Solutions
+            </h1>
+            <p className="text-lg md:text-xl max-w-2xl mx-auto">
+              SK Computer Store has been at the forefront of technological
+              innovation in Uganda since 2013, providing cutting-edge solutions
+              and unparalleled service to our valued customers.
+            </p>
+          </div>
+        </div>
+      </section>
+      <div className="border-t-2 border-[#00918e] w-1/2 mx-auto"></div>
 
+      {/* Mission Statement */}
+      <section className="py-16 bg-gray-1">
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-dark mb-6">Our Mission</h2>
+            <p className="text-lg text-dark-5">
+              To bridge the digital divide by providing accessible, high-quality
+              technology solutions that empower individuals and businesses to
+              achieve their full potential in the digital age.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <h3 className="text-4xl font-bold text-[#00918e] mb-2">
+                  {stat.number}
+                </h3>
+                <p className="text-dark-5">{stat.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="py-16 bg-gray-1">
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
+          <h2 className="text-3xl font-bold text-dark text-center mb-12">
+            Our Core Values
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-1">
+                <div className="text-[#00918e] mb-4">{value.icon}</div>
+                <h3 className="text-xl font-bold text-dark mb-2">
+                  {value.title}
+                </h3>
+                <p className="text-dark-5">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-dark mb-4">
+              Meet Our Leadership
+            </h2>
+            <p className="text-dark-5 max-w-2xl mx-auto">
+              Our experienced team is dedicated to providing the best technology
+              solutions and customer service.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gray-1 p-6 rounded-xl text-center">
+              <div className="w-32 h-32 bg-gray-3 rounded-full mx-auto mb-4">
+                <img
+                  src="/api/placeholder/128/128"
+                  alt="CEO"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-dark mb-1">Solomon SK</h3>
+              <p className="text-[#00918e] mb-2">Founder & CEO</p>
+              <p className="text-dark-5">
+                Visionary leader with over 10 years of experience in technology
+                solutions.
+              </p>
+            </div>
+            <div className="bg-gray-1 p-6 rounded-xl text-center">
+              <div className="w-32 h-32 bg-gray-3 rounded-full mx-auto mb-4">
+                <img
+                  src="/api/placeholder/128/128"
+                  alt="CTO"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-dark mb-1">
+                Sarah Johnson
+              </h3>
+              <p className="text-[#00918e] mb-2">Chief Technology Officer</p>
+              <p className="text-dark-5">
+                Technical expert specializing in emerging technologies and
+                innovation.
+              </p>
+            </div>
+            <div className="bg-gray-1 p-6 rounded-xl text-center">
+              <div className="w-32 h-32 bg-gray-3 rounded-full mx-auto mb-4">
+                <img
+                  src="/api/placeholder/128/128"
+                  alt="COO"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-dark mb-1">David Mukasa</h3>
+              <p className="text-[#00918e] mb-2">Chief Operations Officer</p>
+              <p className="text-dark-5">
+                Operations specialist ensuring smooth delivery of all services.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Original Contact Section */}
       <section className="overflow-hidden py-20 bg-gray-2">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
+          <h2 className="text-3xl font-bold text-dark text-center mb-12">
+            Get in Touch
+          </h2>
           <div className="flex flex-col xl:flex-row gap-7.5">
+            {/* Contact Information Card */}
             <div className="xl:max-w-[370px] w-full bg-white rounded-xl shadow-1">
               <div className="py-5 px-4 sm:px-7.5 border-b border-gray-3">
                 <p className="font-medium text-xl text-dark">
@@ -102,13 +325,12 @@ const Contact = () => {
                     <label htmlFor="firstName" className="block mb-2.5">
                       First Name <span className="text-red">*</span>
                     </label>
-
                     <input
                       type="text"
                       name="firstName"
                       id="firstName"
                       placeholder="Jhon"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-[#00918e]/20"
                     />
                   </div>
 
@@ -116,13 +338,12 @@ const Contact = () => {
                     <label htmlFor="lastName" className="block mb-2.5">
                       Last Name <span className="text-red">*</span>
                     </label>
-
                     <input
                       type="text"
                       name="lastName"
                       id="lastName"
                       placeholder="Deo"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-[#00918e]/20"
                     />
                   </div>
                 </div>
@@ -132,13 +353,12 @@ const Contact = () => {
                     <label htmlFor="subject" className="block mb-2.5">
                       Subject
                     </label>
-
                     <input
                       type="text"
                       name="subject"
                       id="subject"
                       placeholder="Type your subject"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-[#00918e]/20"
                     />
                   </div>
 
@@ -146,13 +366,12 @@ const Contact = () => {
                     <label htmlFor="phone" className="block mb-2.5">
                       Phone
                     </label>
-
                     <input
                       type="text"
                       name="phone"
                       id="phone"
                       placeholder="Enter your phone"
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-[#00918e]/20"
                     />
                   </div>
                 </div>
@@ -161,26 +380,26 @@ const Contact = () => {
                   <label htmlFor="message" className="block mb-2.5">
                     Message
                   </label>
-
                   <textarea
                     name="message"
                     id="message"
                     rows={5}
                     placeholder="Type your message"
-                    className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-[#00918e]/20"
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"
+                  className="inline-flex font-medium text-white bg-[#00918e] py-3 px-7 rounded-md ease-out duration-200 hover:bg-[#007f7d]"
                 >
                   Send Message
                 </button>
               </form>
             </div>
           </div>
-          <div className="mt-8 flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 px-6 rounded-lg hover:bg-[#128C7E] transition-colors w-fit">
+
+          <div className="mt-8 flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 px-6 rounded-lg hover:bg-[#128C7E] transition-colors w-fit mx-auto">
             <svg
               className="w-6 h-6"
               fill="currentColor"
@@ -202,4 +421,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default AboutUs;
