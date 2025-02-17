@@ -31,14 +31,14 @@ const QuickViewModal = () => {
 
   // add to cart
   const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...product,
-        quantity,
-      })
-    );
+    // dispatch(
+    //   addItemToCart({
+    //     ...product,
+    //     quantity,
+    //   })
+    // );
 
-    closeModal();
+    // closeModal();
   };
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const QuickViewModal = () => {
           <div className="flex flex-wrap items-center gap-12.5">
             <div className="max-w-[526px] w-full">
               <div className="flex gap-5">
-                <div className="flex flex-col gap-5">
+                {/* <div className="flex flex-col gap-5">
                   {product.imgs.thumbnails?.map((img, key) => (
                     <button
                       onClick={() => setActivePreview(key)}
@@ -111,7 +111,7 @@ const QuickViewModal = () => {
                       />
                     </button>
                   ))}
-                </div>
+                </div> */}
 
                 <div className="relative z-1 overflow-hidden flex items-center justify-center w-full sm:min-h-[508px] bg-gray-1 rounded-lg border border-gray-3">
                   <div>
@@ -138,7 +138,7 @@ const QuickViewModal = () => {
                     </button>
 
                     <Image
-                      src={product?.imgs?.previews?.[activePreview]}
+                      src={product?.imageUrl}
                       alt="products-details"
                       width={400}
                       height={400}
@@ -315,7 +315,7 @@ const QuickViewModal = () => {
 
                   <span className="flex items-center gap-2">
                     <span className="font-semibold text-dark text-xl xl:text-heading-4">
-                      ${product.discountedPrice}
+                      ${product.description}
                     </span>
                     <span className="font-medium text-dark-4 text-lg xl:text-2xl line-through">
                       ${product.price}
