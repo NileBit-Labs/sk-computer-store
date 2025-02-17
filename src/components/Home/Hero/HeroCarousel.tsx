@@ -45,6 +45,14 @@ const HeroCarousel = () => {
     return (originalPrice - discount).toFixed(2);
   };
 
+  function openModal() {
+    throw new Error("Function not implemented.");
+  }
+
+  function handleQuickViewUpdate() {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div
       className="relative overflow-hidden bg-white rounded-xl shadow-lg border border-[#00918e]"
@@ -89,16 +97,19 @@ const HeroCarousel = () => {
                     variants={itemVariants}
                     className="mb-6 bg-white/90 backdrop-blur-sm rounded-lg p-4 border border-[#00918e]/20 shadow-lg inline-block"
                   >
-                    <div className="flex items-baseline gap-3">
-                      <span className="text-3xl font-bold text-[#00918e]">
-                        ${calculateDiscountedPrice(offer.price, offer.discount)}
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-orange">
+                        <span className="text-xl">UGX</span>{" "}
+                        {parseInt(
+                          calculateDiscountedPrice(offer.price, offer.discount)
+                        )}
                       </span>
                       <span className="text-xl text-gray-500 line-through">
-                        ${offer.price}
+                        <span className="text-lg">UGX</span> {offer.price}
                       </span>
-                      <span className="text-[#ff9b50] font-semibold">
+                      {/* <span className="text-[#00918e] font-semibold ml-1">
                         Save {offer.discount}%
-                      </span>
+                      </span> */}
                     </div>
                   </motion.div>
 
@@ -122,7 +133,11 @@ const HeroCarousel = () => {
 
                   <motion.h1
                     variants={itemVariants}
-                    className="font-semibold text-2xl sm:text-4xl text-gray-900 leading-tight mb-4"
+                    onClick={() => {
+                      openModal();
+                      handleQuickViewUpdate();
+                    }}
+                    className="font-semibold text-2xl sm:text-4xl text-gray-900 transition-colors duration-200 hover:text-[#00918e] line-clamp-2 leading-tight mb-4"
                   >
                     {offer.title}
                   </motion.h1>
@@ -139,8 +154,11 @@ const HeroCarousel = () => {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <a
-                      href="#"
+                    <button
+                      onClick={() => {
+                        openModal();
+                        handleQuickViewUpdate();
+                      }}
                       className="group inline-flex items-center gap-2 bg-[#00918e] hover:bg-[#007a78] text-white font-medium py-3 px-6 rounded-md transition-colors duration-200"
                     >
                       Shop Now
@@ -157,7 +175,7 @@ const HeroCarousel = () => {
                           d="M14 5l7 7-7 7"
                         />
                       </svg>
-                    </a>
+                    </button>
                   </motion.div>
 
                   <motion.div
