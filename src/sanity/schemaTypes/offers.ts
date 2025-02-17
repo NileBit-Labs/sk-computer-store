@@ -32,6 +32,12 @@ export const offer = defineType({
       validation: (Rule) => Rule.min(0).max(100).error("Discount must be between 0 and 100%"),
     }),
     defineField({
+      name: "price",
+      title: "Price",
+      type: "number",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
         name: "categories",
         title: "Categories",
         type: "array",

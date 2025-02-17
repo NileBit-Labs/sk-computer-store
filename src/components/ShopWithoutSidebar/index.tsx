@@ -6,16 +6,20 @@ import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
 import CustomSelect from "../ShopWithSidebar/CustomSelect";
 
-import shopData from "../Shop/shopData";
+// import shopData from "../Shop/shopData";
+import { fetchGadgets } from "../Shop/shopData";
 
-const ShopWithoutSidebar = () => {
+const ShopWithoutSidebar = async() => {
   const [productStyle, setProductStyle] = useState("grid");
 
+  const shopData= await fetchGadgets();
+    
   const options = [
     { label: "Latest Products", value: "0" },
     { label: "Best Selling", value: "1" },
     { label: "Old Products", value: "2" },
   ];
+
 
   return (
     <>
@@ -129,7 +133,7 @@ const ShopWithoutSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
+                {shopData?.map((item, key) =>
                   productStyle === "grid" ? (
                     <SingleGridItem item={item} key={key} />
                   ) : (

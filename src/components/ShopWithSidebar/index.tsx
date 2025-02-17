@@ -7,7 +7,9 @@ import GenderDropdown from "./GenderDropdown";
 import SizeDropdown from "./SizeDropdown";
 import ColorsDropdwon from "./ColorsDropdwon";
 import PriceDropdown from "./PriceDropdown";
-import shopData from "../Shop/shopData";
+// import shopData from "../Shop/shopData"
+import { fetchGadgets } from "../Shop/shopData";
+
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
 
@@ -15,6 +17,17 @@ const ShopWithSidebar = () => {
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
+  const [shopData, setShopData] = useState([]);
+
+   useEffect(() => {
+    const fetchData = async () => {
+      const products = await fetchGadgets();
+      console.log(products);
+      setShopData(products);
+    };
+    fetchData();
+   
+   },[]);
 
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
