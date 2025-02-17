@@ -46,16 +46,17 @@ export const gadget = defineType({
   ],
   preview: {
     select: {
-      title: "title", // Changed from "name" to "title" to match field name
+      title: "title",
       media: "image",
       subtitle: "price",
     },
-    prepare(selection) {
+    prepare({ title, subtitle, media }) {
       return {
-        title: selection.title,
-        subtitle: `$${selection.subtitle}`,
-        media: selection.media,
+        title,
+        subtitle: `$${subtitle?.toFixed(2)}`,
+        media,
       }
     }
   }
+  
 });
