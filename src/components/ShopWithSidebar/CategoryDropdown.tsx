@@ -38,7 +38,7 @@ const CategoryItem = ({ category, onSelect, selectedCategories }) => {
             />
           </svg>
         </div>
-        <span>{category.name}</span>
+        <span>{category.title}</span>
       </div>
       <span
         className={`${
@@ -61,6 +61,7 @@ const CategoryDropdown = ({ onCategoryChange }) => {
     const loadCategories = async () => {
       try {
         const fetchedCategories = await fetchCategories();
+        console.log(categories,"categoreiesssss");
         setCategories(fetchedCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);

@@ -20,6 +20,15 @@
   }
 
 
+  // const categoryQuery = `*[_type == "category"]{
+  //   _id,
+  //   title
+  // }`
+  
+  // // Log the results
+  // const categories = await client.fetch(categoryQuery)
+  // console.log('Categories:', categories)
+
 
   export async function fetchGadgetsByCategories(categoryIds: string[] = []) {
     const query = `*[_type == "gadget" ${
