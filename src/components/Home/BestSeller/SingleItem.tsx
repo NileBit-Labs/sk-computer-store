@@ -24,7 +24,9 @@ const SingleItem = ({ item }: { item: Product }) => {
     dispatch(
       addItemToCart({
         ...item,
+        id: Number(item.id),
         quantity: 1,
+        discountedPrice: 0,
       })
     );
   };
@@ -33,8 +35,9 @@ const SingleItem = ({ item }: { item: Product }) => {
     dispatch(
       addItemToFavourites({
         ...item,
-        status: "available",
+        id: Number(item.id),
         quantity: 1,
+        discountedPrice: 0,
       })
     );
   };
@@ -76,8 +79,6 @@ const SingleItem = ({ item }: { item: Product }) => {
                 height={14}
               />
             </div>
-
-            <p className="text-custom-sm">({item.reviews})</p>
           </div>
 
           <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
