@@ -12,6 +12,7 @@
   "dependencies": {
     "@portabletext/react": "^3.2.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@sanity/client": "^6.28.0",
     "@sanity/icons": "^3.5.7",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.74.1",
