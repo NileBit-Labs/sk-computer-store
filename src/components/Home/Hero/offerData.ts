@@ -14,6 +14,7 @@ export async function fetchOffers() {
       _id,
       title,
       description,
+      price,
       "imageUrl": image.asset->url,
       discount
     }`;
