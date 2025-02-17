@@ -163,7 +163,7 @@ const Header = () => {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/aboutus"
                   className="text-white hover:text-teal-200 hover:underline transition-colors"
                 >
                   About Us

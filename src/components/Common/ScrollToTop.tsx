@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Top: 0 takes us all the way back to the top of the page
-  // Behavior: smooth keeps it smooth!
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -14,7 +12,6 @@ export default function ScrollToTop() {
   };
 
   useEffect(() => {
-    // Button is displayed after scrolling for 500 pixels
     const toggleVisibility = () => {
       if (window.pageYOffset > 300) {
         setIsVisible(true);
@@ -24,7 +21,6 @@ export default function ScrollToTop() {
     };
 
     window.addEventListener("scroll", toggleVisibility);
-
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
@@ -33,9 +29,7 @@ export default function ScrollToTop() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className={`items-center justify-center w-10 h-10 rounded-[4px] shadow-lg bg-blue ease-out duration-200 hover:bg-blue-dark fixed bottom-8 right-8 z-999 ${
-            isVisible ? "flex" : "hidden"
-          }`}
+          className="items-center justify-center w-10 h-10 rounded-[4px] bg-[#00918e] hover:bg-[#007c7a] fixed bottom-16 right-8 z-[999] ease-out duration-200 shadow-[0_0_10px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.4)] hover:shadow-[0_0_12px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.5)] flex"
         >
           <svg
             className="fill-white w-5 h-5"

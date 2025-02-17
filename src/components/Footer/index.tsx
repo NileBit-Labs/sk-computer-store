@@ -68,7 +68,7 @@ const Footer = () => {
                 (item) => (
                   <a
                     key={item}
-                    href="/contact"
+                    href="/aboutus"
                     className="text-sm text-white hover:underline transition-colors"
                   >
                     {item}
