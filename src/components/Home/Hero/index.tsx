@@ -162,7 +162,7 @@ const Hero = () => {
         <div className="absolute top-1/2 right-1/4 w-8 h-8 bg-orange-300 opacity-20 rounded-full blur-sm animate-float-slow"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
         <motion.div
           initial="hidden"
           animate="visible"
