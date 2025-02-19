@@ -9,6 +9,8 @@
     "typescript-config/consistent-casing": "off",
     "meta-viewport": "off",
     "no-inline-styles": "off",
-    "axe/parsing": "off"
+    "axe/parsing": "off",
+    "button-type": "off",
+    "axe/aria": "off"
   }
 }

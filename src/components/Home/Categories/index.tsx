@@ -1,16 +1,35 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
+import React, { useCallback, useRef, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useCallback, useRef, useEffect } from "react";
-import data from "./categoryData";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { fetchCategories } from "../../ShopWithSidebar/categoryUtils";
+import SingleItem from "./SingleItem";
 
 // Import Swiper styles
 import "swiper/css/navigation";
 import "swiper/css";
-import SingleItem from "./SingleItem";
 
 const Categories = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const sliderRef = useRef(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const fetchedCategories = await fetchCategories();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
@@ -22,17 +41,35 @@ const Categories = () => {
     sliderRef.current.swiper.slideNext();
   }, []);
 
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.swiper.init();
-    }
-  }, []);
+  // const handleCategoryClick = (categoryId: string) => {
+  //   const category = categories.find((cat) => cat._id === categoryId);
+  //   if (!category) return;
+
+  //   const slug = category.title.toLowerCase().replace(/\s+/g, "-");
+  //   router.push(`/shop-with-sidebar?category=${slug}`);
+  // };
+
+  const handleCategoryClick = (categoryId: string) => {
+    const category = categories.find((cat) => cat._id === categoryId);
+    if (!category) return;
+
+    // Pass both ID and slug to maintain proper filtering
+    const slug = category.title.toLowerCase().replace(/\s+/g, "-");
+    router.push(`/shop-with-sidebar?category=${categoryId}`);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <p>Loading categories...</p>
+      </div>
+    );
+  }
 
   return (
-    <section className="overflow-hidden pt-5">
+    <section className="overflow-hidden">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0 pb-15 border-b border-gray-3">
         <div className="swiper categories-carousel common-carousel">
-          {/* <!-- section title --> */}
           <div className="mb-10 flex items-center justify-between">
             <div>
               <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
@@ -56,12 +93,6 @@ const Categories = () => {
                       transform="rotate(-45 7.17245 7.39917)"
                       stroke="#3C50E0"
                       strokeWidth="1.5"
-                    />
-                    <path
-                      d="M9.61837 15.4164L15.4342 9.6004"
-                      stroke="#3C50E0"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
                     />
                   </g>
                   <defs>
@@ -119,23 +150,20 @@ const Categories = () => {
             ref={sliderRef}
             slidesPerView={6}
             breakpoints={{
-              // when window width is >= 640px
               0: {
                 slidesPerView: 2,
               },
               1000: {
                 slidesPerView: 4,
-                // spaceBetween: 4,
               },
-              // when window width is >= 768px
               1200: {
                 slidesPerView: 6,
               },
             }}
           >
-            {data.map((item, key) => (
-              <SwiperSlide key={key}>
-                <SingleItem item={item} />
+            {categories.map((category) => (
+              <SwiperSlide key={category._id}>
+                <SingleItem item={category} onSelect={handleCategoryClick} />
               </SwiperSlide>
             ))}
           </Swiper>

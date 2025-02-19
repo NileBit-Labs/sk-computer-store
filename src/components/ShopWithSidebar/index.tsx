@@ -10,20 +10,26 @@ import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
 
 const ShopWithSidebar = () => {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const [shopData, setShopData] = useState([]);
 
-  //adjusted the filtered data
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryId = params.get("category");
+
+    if (categoryId) {
+      setSelectedCategories([categoryId]);
+    }
+  }, []);
 
   useEffect(() => {
     const loadProducts = async () => {
       try {
         const items = await fetchGadgetsByCategories(selectedCategories);
-
         setFilteredProducts(items);
       } catch (error) {
         console.error("Error fetching products:", error);
