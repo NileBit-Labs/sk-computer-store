@@ -9,9 +9,11 @@ import ColorsDropdwon from "./ColorsDropdwon";
 import PriceDropdown from "./PriceDropdown";
 // import shopData from "../Shop/shopData"
 import { fetchGadgets } from "../Shop/shopData";
+import { fetchGadgetsByCategories } from "./categoryUtils";
 
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
+
 
 const ShopWithSidebar = () => {
   const [productStyle, setProductStyle] = useState("grid");
@@ -19,16 +21,30 @@ const ShopWithSidebar = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
   const [shopData, setShopData] = useState([]);
 
-   useEffect(() => {
-    const fetchData = async () => {
-      const products = await fetchGadgets();
-      console.log(products);
-      setShopData(products);
-    };
-    fetchData();
-   
-   },[]);
+  //adjusted the filtered data
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [selectedCategories, setSelectedCategories] = useState([])
 
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const items = await fetchGadgetsByCategories(selectedCategories)
+        
+        setFilteredProducts(items)
+      } catch (error) {
+        console.error('Error fetching products:', error)
+      }
+    }
+  
+    loadProducts()
+  }, [selectedCategories])
+  
+  const handleCategoryChange = (categories) => {
+    setSelectedCategories(categories)
+  }
+
+  
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
       setStickyMenu(true);
@@ -54,42 +70,10 @@ const ShopWithSidebar = () => {
       products: 12,
       isRefined: false,
     },
-    {
-      name: "Monitor",
-      products: 30,
-      isRefined: false,
-    },
-    {
-      name: "UPS",
-      products: 23,
-      isRefined: false,
-    },
-    {
-      name: "Phone",
-      products: 10,
-      isRefined: false,
-    },
-    {
-      name: "Watch",
-      products: 13,
-      isRefined: false,
-    },
+   
   ];
 
-  const genders = [
-    {
-      name: "Men",
-      products: 10,
-    },
-    {
-      name: "Women",
-      products: 23,
-    },
-    {
-      name: "Unisex",
-      products: 8,
-    },
-  ];
+
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -112,12 +96,8 @@ const ShopWithSidebar = () => {
 
   return (
     <>
-      {/* <Breadcrumb
-        title={"Explore All Products"}
-        pages={["shop", "/", "shop with sidebar"]}
-      /> */}
       <section className="overflow-hidden relative pb-20 pt-5 lg:pt-20 xl:pt-28 bg-[#f3f4f6] mt-20">
-        <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
+        <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0zz">
           <div className="flex gap-7.5">
             {/* <!-- Sidebar Start --> */}
             <div
@@ -170,7 +150,8 @@ const ShopWithSidebar = () => {
                   </div>
 
                   {/* <!-- category box --> */}
-                  <CategoryDropdown categories={categories} />
+                  <CategoryDropdown onCategoryChange={handleCategoryChange} />
+
 
                   {/* <!-- gender box --> */}
                   {/* <GenderDropdown genders={genders} /> */}
@@ -291,13 +272,13 @@ const ShopWithSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
-                  productStyle === "grid" ? (
-                    <SingleGridItem item={item} key={key} />
-                  ) : (
-                    <SingleListItem item={item} key={key} />
-                  )
-                )}
+               {filteredProducts.map((item, key) =>
+       productStyle === "grid" ? (
+    <SingleGridItem item={item} key={key} />
+  ) : (
+    <SingleListItem item={item} key={key} />
+  )
+)}
               </div>
               {/* <!-- Products Grid Tab Content End --> */}
 
