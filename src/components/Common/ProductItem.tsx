@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
@@ -14,11 +15,11 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
-  const { openModal } = useModalContext();
+  const modalContext = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
 
   const handleQuickView = () => {
-    openModal();
+    modalContext.openModal();
     dispatch(updateQuickView(item));
   };
 
