@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { updateQuickView } from "@/redux/features/quickView-slice";
-import { addItemToCart } from "@/redux/features/cart-slice";
 import { addItemToFavourites } from "@/redux/features/favourites-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
 
@@ -15,53 +15,37 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
-  console.log(item, "itemsssssssssssssssssssssssssssss");
+  const router = useRouter();
   const modalContext = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleQuickView = () => {
+  const handleNavigateToDetails = () => {
+    dispatch(updateproductDetails(item));
+    router.push(`/product-details/${item.id || item._id}`);
+  };
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.stopPropagation();
     modalContext.openModal();
     dispatch(updateQuickView(item));
   };
 
-  const handleAddToCart = () => {
-    // Format the product details
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
     const productDetails = `${item.title} - ${item.price}`;
-
-    // Create message
     const message = `Hello, I'm interested in this product: ${productDetails}`;
-
-    // Get current URL
     const productUrl = `${window.location.origin}${window.location.pathname}`;
-
-    // Combine message with URL
     const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
-
-    // Encode the message
     const encodedMessage = encodeURIComponent(fullMessage);
-
-    // WhatsApp number
     const whatsappNumber = "256774077357";
-
-    // Create and open WhatsApp URL
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
       "_blank"
     );
   };
 
-  // const handleAddToCart = () => {
-  //   dispatch(
-  //     addItemToCart({
-  //       ...item,
-  //       id: Number(item.id),
-  //       quantity: 1,
-  //       discountedPrice: Number(item.discountedPrice),
-  //     })
-  //   );
-  // };
-
-  const handleAddToFavorites = () => {
+  const handleAddToFavorites = (e: React.MouseEvent) => {
+    e.stopPropagation();
     dispatch(
       addItemToFavourites({
         id: Number(item.id),
@@ -86,21 +70,19 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
   };
 
   return (
-    <div className="group relative rounded-2xl bg-white p-5 transition-all duration-300 hover:shadow-2xl">
+    <div
+      onClick={handleNavigateToDetails}
+      className="group relative rounded-2xl bg-white p-5 transition-all duration-300 hover:shadow-2xl cursor-pointer"
+    >
       <div className="relative mb-4 overflow-hidden rounded-xl bg-gradient-to-br from-[#00918e]/10 to-blue-50 p-0.5">
         <div className="relative overflow-hidden rounded-xl bg-white">
-          <button
-            onClick={handleQuickView}
-            className="block w-full"
-            aria-label={`View ${item.title}`}
-          >
+          <div className="block w-full">
             <img
               src={item.imageUrl}
               alt={item.title}
               className="h-[260px] w-full object-contain p-6 transition-all duration-700 ease-out group-hover:scale-105"
             />
-          </button>
-
+          </div>
           <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-gray-900/50 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100">
             <div className="mb-6 flex items-center gap-3 px-4">
               <ActionButton
@@ -130,15 +112,14 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
       </div>
 
       <div className="space-y-2">
-        <button
-          onClick={handleQuickView}
+        <div
           className="block w-full text-left"
-          aria-label={`View details of ${item.title}`}
+          onClick={handleNavigateToDetails}
         >
           <h3 className="text-base font-medium text-gray-900 transition-colors duration-200 hover:text-[#00918e] line-clamp-2">
             {item.title}
           </h3>
-        </button>
+        </div>
 
         <div className="flex items-center">
           <span className="text-xl font-bold text-gray-900">
@@ -151,7 +132,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
 };
 
 const ActionButton: React.FC<{
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
   className?: string;
   ariaLabel: string;
   icon: React.ReactNode;

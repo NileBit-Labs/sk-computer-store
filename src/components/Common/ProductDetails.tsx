@@ -1,39 +1,103 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "@/redux/features/cart-slice";
+import { Swiper, SwiperSlide } from "swiper/react";
+import Navigation from "swiper";
+import {
+  Check,
+  Heart,
+  ShoppingBag,
+  Truck,
+  Shield,
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { addItemToFavourites } from "@/redux/features/favourites-slice";
+import { useAppSelector } from "@/redux/store";
+import { fetchGadgetsByCategories } from "../ShopWithSidebar/categoryUtils";
 
-const ProductDetails = () => {
-  const dispatch = useDispatch();
-  const product = useSelector(
-    (state: { productDetails: any }) => state.productDetails
-  );
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+interface ProductDetailsProps {
+  productId?: string | string[];
+}
+
+interface RelatedProduct {
+  id: number;
+  title: string;
+  price: number;
+  imageUrl: string;
+  category: string;
+  _id?: string;
+}
+
+const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
+  const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const product = useAppSelector((state) => state.productDetailsReducer.value);
+  console.log("Product from Redux:", product);
 
-  // Handlers
-  const handleAddToCart = () => {
-    // Format the product details
-    const productDetails = `${product.name} - ${product.price}`;
+  // Initialize Swiper ref
+  const swiperRef = React.useRef(null);
 
-    // Create message
+  useEffect(() => {
+    if (product?.category || product?.categoryId || product?._id) {
+      fetchRelatedProducts(product.category);
+    }
+  }, [product]);
+
+  const fetchRelatedProducts = async (category: string) => {
+    try {
+      setIsLoading(true);
+      console.log("Fetching related products for category:", category);
+      const categoryId = product.categoryId || product._id || category;
+      console.log("Using categoryId:", categoryId);
+
+      const items = await fetchGadgetsByCategories([categoryId]);
+      console.log("Fetched items:", items);
+
+      const filteredItems = items
+        .filter(
+          (item: RelatedProduct) =>
+            item.id !== Number(product.id) && item._id !== product._id
+        )
+        .slice(0, 8);
+
+      console.log("Filtered items:", filteredItems);
+      setRelatedProducts(filteredItems);
+    } catch (error) {
+      console.error("Error fetching related products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleNext = () => {
+    if (!swiperRef.current) return;
+    swiperRef.current.swiper.slideNext();
+  };
+
+  const handlePrev = () => {
+    if (!swiperRef.current) return;
+    swiperRef.current.swiper.slidePrev();
+  };
+
+  const handleBuyNow = () => {
+    const productDetails = `${product.title} - ${formatPrice(product.price)}`;
     const message = `Hello, I'm interested in this product: ${productDetails}`;
-
-    // Get current URL
     const productUrl = `${window.location.origin}${window.location.pathname}`;
-
-    // Combine message with URL
     const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
-
-    // Encode the message
     const encodedMessage = encodeURIComponent(fullMessage);
-
-    // WhatsApp number
     const whatsappNumber = "256774077357";
-
-    // Create and open WhatsApp URL
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
       "_blank"
@@ -45,131 +109,317 @@ const ProductDetails = () => {
       addItemToFavourites({
         id: Number(product.id),
         title: product.title,
-        price: Number(product.price),
-        discountedPrice: product.discountedPrice
-          ? Number(product.discountedPrice)
-          : Number(product.price),
-        quantity: 1,
-        status: product.status || "available",
+        price: product.price,
         imageUrl: product.imageUrl,
-        imgs: product.imgs,
+        discountedPrice: 0,
+        quantity: 0,
       })
     );
   };
 
+  const formatPrice = (price: number) =>
+    price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
   if (!product) {
-    return <div className="p-8 text-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse">Loading product details...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Product Images */}
-        <div className="space-y-4">
-          <div className="relative h-96 bg-[#F6F7FB] rounded-lg overflow-hidden">
+    <div className="max-w-7xl mx-auto px-4 py-8 mt-30">
+      {/* Breadcrumb */}
+      <div className="mb-8">
+        <button
+          onClick={() => window.history.back()}
+          className="flex items-center text-gray-600 hover:text-[#00918e] transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Products
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* Image Gallery */}
+        <div className="space-y-6">
+          <div className="aspect-square relative bg-gray-50 rounded-2xl overflow-hidden">
             <Image
-              src={product.imgs?.previews[selectedImage]}
+              src={product.imgs?.previews?.[selectedImage] || product.imageUrl}
               alt={product.title}
-              className="object-contain"
               fill
+              className="object-contain p-4"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
             />
           </div>
-          <div className="grid grid-cols-4 gap-4">
-            {product.imgs?.previews.map((img, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImage(index)}
-                className={`relative h-24 bg-[#F6F7FB] rounded-md overflow-hidden ${
-                  selectedImage === index ? "ring-2 ring-blue" : ""
-                }`}
-              >
-                <Image
-                  src={img}
-                  alt={`${product.title} preview ${index + 1}`}
-                  className="object-contain"
-                  fill
-                />
-              </button>
-            ))}
-          </div>
-        </div>
 
-        {/* Product Info */}
-        <div className="space-y-6">
-          <h1 className="text-3xl font-semibold text-dark">{product.title}</h1>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, index) => (
-                <Image
+          {product.imgs?.previews && product.imgs.previews.length > 0 && (
+            <div className="grid grid-cols-4 gap-4">
+              {product.imgs.previews.map((img, index) => (
+                <button
                   key={index}
-                  src="/images/icons/icon-star.svg"
-                  alt="star"
-                  width={20}
-                  height={20}
-                />
+                  onClick={() => setSelectedImage(index)}
+                  className={`
+                    aspect-square relative bg-gray-50 rounded-xl overflow-hidden
+                    ${selectedImage === index ? "ring-2 ring-[#00918e]" : ""}
+                    hover:ring-2 hover:ring-[#00918e]/50 transition-all
+                  `}
+                >
+                  <Image
+                    src={img}
+                    alt={`${product.title} view ${index + 1}`}
+                    fill
+                    className="object-contain p-2"
+                    sizes="(max-width: 768px) 25vw, 10vw"
+                  />
+                </button>
               ))}
             </div>
-            <span className="text-dark-4">({product.reviews} reviews)</span>
-          </div>
+          )}
+        </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-2xl font-semibold text-dark">
-              ${product.discountedPrice}
-            </span>
-            <span className="text-xl text-dark-4 line-through">
-              ${product.price}
-            </span>
-          </div>
-
+        {/* Product Information */}
+        <div className="space-y-8">
+          {/* Title and Badge */}
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <label className="text-dark">Quantity:</label>
-              <div className="flex items-center border rounded-md">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-3 py-2 hover:bg-gray-100"
-                >
-                  -
-                </button>
-                <span className="px-4 py-2">{quantity}</span>
-                <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="px-3 py-2 hover:bg-gray-100"
-                >
-                  +
-                </button>
+              <div className="flex items-center text-green-600 bg-green-50 px-4 py-2 rounded-lg">
+                <Check className="w-5 h-5 mr-2" />
+                <span className="text-sm font-medium">In Stock</span>
               </div>
+              {/* <span className="text-sm text-gray-500">
+                SKU: {product.id || product._id}
+              </span> */}
             </div>
-
-            <div className="flex gap-4">
-              <button
-                onClick={handleAddToCart}
-                className="px-8 py-3 bg-blue text-white rounded-md hover:bg-blue-dark transition-colors"
-              >
-                Add to Cart
-              </button>
-              <button
-                onClick={handleAddToFavourites}
-                className="p-3 border rounded-md hover:text-blue transition-colors"
-              >
-                <svg className="w-6 h-6 fill-current" viewBox="0 0 16 16">
-                  <path d="M7.99992 2.97255C6.45855 1.5935 4.73256 1.40058 3.33376 2.03998C1.85639 2.71528 0.833252 4.28336 0.833252 6.0914C0.833252 7.86842 1.57358 9.22404 2.5444 10.3172C3.32183 11.1926 4.2734 11.9253 5.1138 12.5724C5.30431 12.7191 5.48911 12.8614 5.66486 12.9999C6.00636 13.2691 6.37295 13.5562 6.74447 13.7733C7.11582 13.9903 7.53965 14.1667 7.99992 14.1667C8.46018 14.1667 8.88401 13.9903 9.25537 13.7733C9.62689 13.5562 9.99348 13.2691 10.335 12.9999C10.5107 12.8614 10.6955 12.7191 10.886 12.5724C11.7264 11.9253 12.678 11.1926 13.4554 10.3172C14.4263 9.22404 15.1666 7.86842 15.1666 6.0914C15.1666 4.28336 14.1434 2.71528 12.6661 2.03998C11.2673 1.40058 9.54129 1.5935 7.99992 2.97255Z" />
-                </svg>
-              </button>
-            </div>
+            <h1 className="text-4xl font-bold text-gray-900">
+              {product.title}
+            </h1>
           </div>
 
-          {/* Product Description */}
-          <div className="border-t pt-6 space-y-4">
-            <h2 className="text-xl font-semibold text-dark">
-              Product Description
-            </h2>
-            <p className="text-dark-4">
-              {product.description || "No description available."}
+          {/* Price */}
+          <div className="bg-gray-50 p-6 rounded-xl space-y-2">
+            <div className="flex items-baseline gap-2">
+              <span className="text-sm text-gray-600 font-medium">UGX</span>
+              <span className="text-5xl font-bold text-gray-900">
+                {formatPrice(product.price)}
+              </span>
+            </div>
+            {product.discountedPrice && Number(product.discountedPrice) > 0 && (
+              <div className="flex items-center gap-3">
+                <span className="text-lg text-gray-500 line-through">
+                  UGX {formatPrice(Number(product.discountedPrice))}
+                </span>
+                <span className="text-sm font-medium text-green-600">
+                  Save{" "}
+                  {Math.round(
+                    (((Number(product.discountedPrice) ?? 0) -
+                      (Number(product.price) ?? 0)) /
+                      (Number(product.discountedPrice) ?? 1)) *
+                      100
+                  )}
+                  %
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Description */}
+          <div className="prose prose-gray max-w-none">
+            <p className="text-gray-600 leading-relaxed">
+              {product.description ||
+                "No description available for this product. Please contact us for more information."}
             </p>
           </div>
+
+          {/* Actions */}
+          <div className="flex gap-4">
+            <button
+              onClick={handleBuyNow}
+              className="
+                flex-1 bg-[#00918e] text-white 
+                px-6 py-4 rounded-xl font-medium 
+                hover:bg-[#013634] 
+                transition-colors duration-200
+                flex items-center justify-center gap-3
+                shadow-lg shadow-[#00918e]/20
+              "
+            >
+              <span>Buy Now</span>
+              <ShoppingBag className="w-5 h-5" />
+            </button>
+            <button
+              onClick={handleAddToFavourites}
+              className="
+                flex items-center justify-center gap-3 
+                px-6 py-4 
+                border-2 border-gray-200 
+                rounded-xl 
+                text-gray-700 
+                hover:border-gray-300 hover:bg-gray-50 
+                transition-all duration-200
+              "
+            >
+              <Heart className="w-5 h-5" />
+              <span>Save</span>
+            </button>
+          </div>
+
+          {/* Features */}
+          <div className="grid grid-cols-2 gap-6 py-8 border-y border-gray-100">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <Truck className="w-6 h-6 text-[#00918e]" />
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900">
+                  Delivery Country-wide
+                </h3>
+                <p className="text-sm text-gray-500">
+                  At a small fee depending on your location.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <Shield className="w-6 h-6 text-[#00918e]" />
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900">Warranty</h3>
+                <p className="text-sm text-gray-500">1 Year Warranty</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Details */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 text-sm">
+              <span className="text-gray-500">Category:</span>
+              <span className="font-medium capitalize px-3 py-1 bg-gray-100 rounded-full">
+                {product.category || "General"}
+              </span>
+            </div>
+            {product.tags && product.tags.length > 0 && (
+              <div className="flex items-center gap-3 text-sm">
+                <span className="text-gray-500">Tags:</span>
+                <div className="flex flex-wrap gap-2">
+                  {product.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="
+                        px-3 py-1 
+                        bg-gray-100 
+                        rounded-full 
+                        text-xs font-medium 
+                        text-gray-600
+                        hover:bg-gray-200
+                        transition-colors duration-200
+                        cursor-pointer
+                      "
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* Related Products Section */}
+      <div className="mt-16">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-gray-900">Related Products</h2>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePrev}
+              className="p-2 rounded-full border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading || relatedProducts.length <= 4}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="p-2 rounded-full border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading || relatedProducts.length <= 4}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, index) => (
+              <div
+                key={index}
+                className="bg-gray-100 rounded-xl h-64 animate-pulse"
+              ></div>
+            ))}
+          </div>
+        ) : relatedProducts.length === 0 ? (
+          <div className="text-center py-12 bg-gray-50 rounded-xl">
+            <p className="text-gray-500">No related products found</p>
+          </div>
+        ) : (
+          <Swiper
+            ref={swiperRef}
+            modules={[Navigation]}
+            slidesPerView={4}
+            spaceBetween={24}
+            className="related-products-slider"
+            navigation={true} // Add this
+            breakpoints={{
+              0: {
+                slidesPerView: 1,
+                spaceBetween: 12,
+              },
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 16,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+              },
+            }}
+          >
+            {relatedProducts.map((relatedProduct) => (
+              <SwiperSlide key={relatedProduct.id || relatedProduct._id}>
+                <a
+                  href={`/product/${relatedProduct.id || relatedProduct._id}`}
+                  className="block"
+                >
+                  <div className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-md transition-shadow duration-300">
+                    <div className="aspect-square relative">
+                      <Image
+                        src={relatedProduct.imageUrl}
+                        alt={relatedProduct.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-medium text-gray-900 mb-2 truncate">
+                        {relatedProduct.title}
+                      </h3>
+                      <p className="text-[#00918e] font-medium">
+                        UGX {formatPrice(relatedProduct.price)}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </div>
   );
