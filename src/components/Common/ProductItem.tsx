@@ -1,147 +1,195 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
-import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
 import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { updateQuickView } from "@/redux/features/quickView-slice";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import { addItemToFavourites } from "@/redux/features/favourites-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import Link from "next/link";
 
-const ProductItem = ({ item }: { item: Product }) => {
-  const { openModal } = useModalContext();
+interface ProductItemProps {
+  item: Product;
+}
+
+const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
+  console.log(item, "itemsssssssssssssssssssssssssssss");
+  const modalContext = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
 
-  // update the QuickView state
-  const handleQuickViewUpdate = () => {
-    dispatch(updateQuickView({ ...item }));
+  const handleQuickView = () => {
+    modalContext.openModal();
+    dispatch(updateQuickView(item));
   };
 
-  // add to cart
   const handleAddToCart = () => {
-    // dispatch(
-    //   addItemToCart({
-    //     ...item,
-    //     quantity: 1,
-    //   })
-    // );
+    // Format the product details
+    const productDetails = `${item.title} - ${item.price}`;
+
+    // Create message
+    const message = `Hello, I'm interested in this product: ${productDetails}`;
+
+    // Get current URL
+    const productUrl = `${window.location.origin}${window.location.pathname}`;
+
+    // Combine message with URL
+    const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
+
+    // Encode the message
+    const encodedMessage = encodeURIComponent(fullMessage);
+
+    // WhatsApp number
+    const whatsappNumber = "256774077357";
+
+    // Create and open WhatsApp URL
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+      "_blank"
+    );
   };
 
-  const handleItemToFavourites = () => {
-    // dispatch(
-    //   addItemToFavourites({
-    //     ...item,
-    //     status: "available",
-    //     quantity: 1,
-    //   })
-    // );
+  // const handleAddToCart = () => {
+  //   dispatch(
+  //     addItemToCart({
+  //       ...item,
+  //       id: Number(item.id),
+  //       quantity: 1,
+  //       discountedPrice: Number(item.discountedPrice),
+  //     })
+  //   );
+  // };
+
+  const handleAddToFavorites = () => {
+    dispatch(
+      addItemToFavourites({
+        id: Number(item.id),
+        title: item.title,
+        price: Number(item.price),
+        discountedPrice: item.discountedPrice
+          ? Number(item.discountedPrice)
+          : Number(item.price),
+        quantity: 1,
+        imageUrl: item.imageUrl,
+        imgs: item.imgs,
+      })
+    );
   };
 
-  const handleProductDetails = () => {
-    dispatch(updateproductDetails({ ...item }));
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-UG", {
+      style: "currency",
+      currency: "UGX",
+      minimumFractionDigits: 0,
+    }).format(price);
   };
 
   return (
-    <div className="group">
-      <div className="relative overflow-hidden flex items-center justify-center rounded-lg bg-[#F6F7FB] min-h-[270px] mb-4">
-        <Image
-          src={item.imageUrl} // Updated to use the imageUrl from the item
-          alt={item.title} // Alt text for better accessibility
-          width={250}
-          height={250}
-        />
-
-        <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
+    <div className="group relative rounded-2xl bg-white p-5 transition-all duration-300 hover:shadow-2xl">
+      <div className="relative mb-4 overflow-hidden rounded-xl bg-gradient-to-br from-[#00918e]/10 to-blue-50 p-0.5">
+        <div className="relative overflow-hidden rounded-xl bg-white">
           <button
-            onClick={() => {
-              openModal();
-              handleQuickViewUpdate();
-            }}
-            id="newOne"
-            aria-label="button for quick view"
-            className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
+            onClick={handleQuickView}
+            className="block w-full"
+            aria-label={`View ${item.title}`}
           >
-            {/* Quick View Icon */}
-            <svg
-              className="fill-current"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M8.00016 5.5C6.61945 5.5 5.50016 6.61929 5.50016 8C5.50016 9.38071 6.61945 10.5 8.00016 10.5C9.38087 10.5 10.5002 9.38071 10.5002 8C10.5002 6.61929 9.38087 5.5 8.00016 5.5ZM6.50016 8C6.50016 7.17157 7.17174 6.5 8.00016 6.5C8.82859 6.5 9.50016 7.17157 9.50016 8C9.50016 8.82842 8.82859 9.5 8.00016 9.5C7.17174 9.5 6.50016 8.82842 6.50016 8Z"
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="h-[260px] w-full object-contain p-6 transition-all duration-700 ease-out group-hover:scale-105"
+            />
+          </button>
+
+          <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-gray-900/50 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100">
+            <div className="mb-6 flex items-center gap-3 px-4">
+              <ActionButton
+                onClick={handleQuickView}
+                className="hover:text-[#00918e]"
+                ariaLabel="Quick view"
+                icon={<EyeIcon />}
               />
-            </svg>
-          </button>
 
-          <button
-            onClick={() => handleAddToCart()}
-            className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-[#00918e] text-white ease-out duration-200 hover:bg-[#013634]"
-          >
-            Buy
-          </button>
+              <button
+                onClick={handleAddToCart}
+                className="inline-flex transform items-center gap-2 rounded-lg bg-[#00918e] px-5 py-2.5 font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-[#013634]"
+              >
+                <span>Buy</span>
+                <CartIcon />
+              </button>
 
-          <button
-            onClick={() => handleItemToFavourites()}
-            aria-label="button for favorite select"
-            id="favOne"
-            className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
-          >
-            {/* Favorite Icon */}
-            <svg
-              className="fill-current"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M3.74949 2.94946C2.6435 3.45502 1.83325 4.65749 1.83325 6.0914C1.83325 7.55633 2.43273 8.68549 3.29211 9.65318C4.0004 10.4507 4.85781 11.1118 5.694 11.7564C5.89261 11.9095 6.09002 12.0617 6.28395 12.2146C6.63464 12.491 6.94747 12.7337 7.24899 12.9099C7.55068 13.0862 7.79352 13.1667 7.99992 13.1667C8.20632 13.1667 8.44916 13.0862 8.75085 12.9099C9.05237 12.7337 9.3652 12.491 9.71589 12.2146C9.90982 12.0617 10.1072 11.9095 10.3058 11.7564C11.142 11.1118 11.9994 10.4507 12.7077 9.65318C13.5671 8.68549 14.1666 7.55633 14.1666 6.0914C14.1666 4.65749 13.3563 3.45502 12.2503 2.94946C11.1759 2.45832 9.73214 2.58839 8.36016 4.01382C8.2659 4.11175 8.13584 4.16709 7.99992 4.16709C7.864 4.16709 7.73393 4.11175 7.63967 4.01382C6.26769 2.58839 4.82396 2.45832 3.74949 2.94946ZM7.99992 2.97255C6.45855 1.5935 4.73256 1.40058 3.33376 2.03998C1.85639 2.71528 0.833252 4.28336 0.833252 6.0914C0.833252 7.86842 1.57358 9.22404 2.5444 10.3172C3.32183 11.1926 4.2734 11.9253 5.1138 12.5724C5.30431 12.7191 5.48911 12.8614 5.66486 12.9999C6.00636 13.2691 6.37295 13.5562 6.74447 13.7733C7.11582 13.9903 7.53965 14.1667 7.99992 14.1667C8.46018 14.1667 8.88401 13.9903 9.25537 13.7733C9.62689 13.5562 9.99348 13.2691 10.335 12.9999C10.5107 12.8614 10.6955 12.7191 10.886 12.5724C11.7264 11.9253 12.678 11.1926 13.4554 10.3172C14.4263 9.22404 15.1666 7.86842 15.1666 6.0914C15.1666 4.28336 14.1434 2.71528 12.6661 2.03998C11.2673 1.40058 9.54129 1.5935 7.99992 2.97255Z"
+              <ActionButton
+                onClick={handleAddToFavorites}
+                className="hover:text-rose-600"
+                ariaLabel="Add to favorites"
+                icon={<HeartIcon />}
               />
-            </svg>
-          </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2.5 mb-2">
-        <div className="flex items-center gap-1">
-          {/* You can customize star icons or review functionality as needed */}
-          <span className="text-sm text-gray-500">★★★★★</span>
-        </div>
-
-        <div className="flex items-center gap-1">
-          <span className="font-medium text-lg">{item.price} UGX</span>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2">
-        {/* Stock status */}
-        <span className={`font-medium text-sm ${item.stock > 0 ? 'text-green-500' : 'text-red-500'}`}>
-          {item.stock > 0 ? 'In Stock' : 'Out of Stock'}
-        </span>
-      </div>
-
-      <div className="mt-3 text-center">
-        <Link
-          href={`/product/${item.id}`}
-          className="text-blue-500 hover:underline"
-          onClick={handleProductDetails}
+      <div className="space-y-2">
+        <button
+          onClick={handleQuickView}
+          className="block w-full text-left"
+          aria-label={`View details of ${item.title}`}
         >
-          View Details
-        </Link>
+          <h3 className="text-base font-medium text-gray-900 transition-colors duration-200 hover:text-[#00918e] line-clamp-2">
+            {item.title}
+          </h3>
+        </button>
+
+        <div className="flex items-center">
+          <span className="text-xl font-bold text-gray-900">
+            {formatPrice(item.price)}
+          </span>
+        </div>
       </div>
     </div>
   );
 };
+
+const ActionButton: React.FC<{
+  onClick: () => void;
+  className?: string;
+  ariaLabel: string;
+  icon: React.ReactNode;
+}> = ({ onClick, className, ariaLabel, icon }) => (
+  <button
+    onClick={onClick}
+    className={`rounded-full bg-white/95 p-3 text-gray-800 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-white ${className}`}
+    aria-label={ariaLabel}
+  >
+    {icon}
+  </button>
+);
+
+const EyeIcon = () => (
+  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+    <path
+      fillRule="evenodd"
+      d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+
+const CartIcon = () => (
+  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z" />
+  </svg>
+);
+
+const HeartIcon = () => (
+  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+    <path
+      fillRule="evenodd"
+      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
 
 export default ProductItem;

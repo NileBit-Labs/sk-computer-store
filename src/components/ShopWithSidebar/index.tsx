@@ -1,50 +1,48 @@
 "use client";
 import React, { useState, useEffect } from "react";
-// import Breadcrumb from "../Common/Breadcrumb";
 import CustomSelect from "./CustomSelect";
 import CategoryDropdown from "./CategoryDropdown";
-import GenderDropdown from "./GenderDropdown";
-import SizeDropdown from "./SizeDropdown";
-import ColorsDropdwon from "./ColorsDropdwon";
 import PriceDropdown from "./PriceDropdown";
-// import shopData from "../Shop/shopData"
 import { fetchGadgets } from "../Shop/shopData";
 import { fetchGadgetsByCategories } from "./categoryUtils";
 
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
 
-
 const ShopWithSidebar = () => {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const [shopData, setShopData] = useState([]);
 
-  //adjusted the filtered data
-  const [filteredProducts, setFilteredProducts] = useState([])
-  const [selectedCategories, setSelectedCategories] = useState([])
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryId = params.get("category");
 
+    if (categoryId) {
+      setSelectedCategories([categoryId]);
+    }
+  }, []);
 
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const items = await fetchGadgetsByCategories(selectedCategories)
-        
-        setFilteredProducts(items)
+        const items = await fetchGadgetsByCategories(selectedCategories);
+        setFilteredProducts(items);
       } catch (error) {
-        console.error('Error fetching products:', error)
+        console.error("Error fetching products:", error);
       }
-    }
-  
-    loadProducts()
-  }, [selectedCategories])
-  
-  const handleCategoryChange = (categories) => {
-    setSelectedCategories(categories)
-  }
+    };
 
-  
+    loadProducts();
+  }, [selectedCategories]);
+
+  const handleCategoryChange = (categories) => {
+    setSelectedCategories(categories);
+  };
+
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
       setStickyMenu(true);
@@ -70,10 +68,7 @@ const ShopWithSidebar = () => {
       products: 12,
       isRefined: false,
     },
-   
   ];
-
-
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -93,6 +88,15 @@ const ShopWithSidebar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   });
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(shopData.length / 10); // Assuming 10 products per page
+
+  const handlePageChange = (pageNumber: number) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
+    // Fetch new data based on the page number if needed
+  };
 
   return (
     <>
@@ -152,7 +156,6 @@ const ShopWithSidebar = () => {
                   {/* <!-- category box --> */}
                   <CategoryDropdown onCategoryChange={handleCategoryChange} />
 
-
                   {/* <!-- gender box --> */}
                   {/* <GenderDropdown genders={genders} /> */}
 
@@ -163,7 +166,10 @@ const ShopWithSidebar = () => {
                   {/* <ColorsDropdwon /> */}
 
                   {/* // <!-- price range box --> */}
-                  <PriceDropdown />
+                  <PriceDropdown
+                    products={undefined}
+                    setFilteredProducts={undefined}
+                  />
                 </div>
               </form>
             </div>
@@ -178,7 +184,10 @@ const ShopWithSidebar = () => {
                     <CustomSelect options={options} />
 
                     <p>
-                      Showing <span className="text-dark">9 of 50</span>{" "}
+                      Showing{" "}
+                      <span className="text-dark">
+                        {shopData.length} of 100+
+                      </span>{" "}
                       Products
                     </p>
                   </div>
@@ -272,13 +281,13 @@ const ShopWithSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-               {filteredProducts.map((item, key) =>
-       productStyle === "grid" ? (
-    <SingleGridItem item={item} key={key} />
-  ) : (
-    <SingleListItem item={item} key={key} />
-  )
-)}
+                {filteredProducts.map((item, key) =>
+                  productStyle === "grid" ? (
+                    <SingleGridItem item={item} key={key} />
+                  ) : (
+                    <SingleListItem item={item} key={key} />
+                  )
+                )}
               </div>
               {/* <!-- Products Grid Tab Content End --> */}
 
@@ -291,8 +300,9 @@ const ShopWithSidebar = () => {
                         id="paginationLeft"
                         aria-label="button for pagination left"
                         type="button"
-                        disabled
-                        className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px disabled:text-gray-4"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px] disabled:text-gray-4"
                       >
                         <svg
                           className="fill-current"
@@ -310,74 +320,28 @@ const ShopWithSidebar = () => {
                       </button>
                     </li>
 
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] bg-blue text-white hover:text-white hover:bg-blue"
-                      >
-                        1
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        2
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        3
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        4
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        5
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        ...
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        10
-                      </a>
-                    </li>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <li key={index}>
+                        <button
+                          onClick={() => handlePageChange(index + 1)}
+                          className={`flex py-1.5 px-3.5 duration-200 rounded-[3px] ${
+                            currentPage === index + 1
+                              ? "bg-blue text-white"
+                              : "hover:text-white hover:bg-blue"
+                          }`}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
 
                     <li>
                       <button
-                        id="paginationLeft"
-                        aria-label="button for pagination left"
+                        id="paginationRight"
+                        aria-label="button for pagination right"
                         type="button"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
                         className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px] hover:text-white hover:bg-blue disabled:text-gray-4"
                       >
                         <svg
