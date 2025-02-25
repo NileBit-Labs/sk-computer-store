@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { selectTotalPrice } from "@/redux/features/cart-slice";
 import { useCartModalContext } from "@/app/context/CartSidebarModalContext";
 import HeaderLogo from "./HeaderLogo";
+import ProductSearch from "./ProductSearch";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,31 +67,9 @@ const Header = () => {
                 <HeaderLogo />
               </div>
 
-              <div className="hidden md:block max-w-2xl mx-8 absolute left-1/2 -translate-x-1/2">
-                <div className="flex">
-                  <CustomSelect
-                    options={options}
-                    className="min-w-[160px] bg-[#49aba9] text-white hover:text-teal-200 transition-colors"
-                  />
-                  <div className="relative flex-1">
-                    <input
-                      type="search"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search products..."
-                      className="w-full pl-4 pr-10 py-2 border border-l-0 border-white rounded-r-lg focus:outline-none focus:border-teal-200 bg-[#00918e] text-white placeholder-teal-200"
-                    />
-                    <button className="absolute right-3 top-1/2 -translate-y-1/2 text-teal-200 hover:text-white transition-colors">
-                      <Search size={20} />
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ProductSearch />
 
-              <div
-                className="flex items-center space-x-2 z-20 text-white"
-                style={{ paddingRight: "70px" }}
-              >
+              <div className="hidden md:flex items-center space-x-2 z-20 text-white">
                 <Phone size={18} className="text-teal-200 flex-shrink-0" />
 
                 <a
@@ -107,7 +86,7 @@ const Header = () => {
             </div>
 
             {/* Right Actions */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-6 ml-5">
               <Link
                 href="/favourites"
                 className="hidden md:flex items-center gap-2 text-white hover:text-teal-200 hover:underline transition-colors"
@@ -154,7 +133,9 @@ const Header = () => {
         >
           <div className="max-w-7xl mx-auto px-4 flex justify-center">
             <ul
-              className={`md:flex items-center space-x-8 ${navigationOpen ? "block" : "hidden"}`}
+              className={`md:flex items-center space-x-8 ${
+                navigationOpen ? "block" : "hidden"
+              }`}
             >
               <li>
                 <Link
@@ -179,6 +160,30 @@ const Header = () => {
                 >
                   About Us
                 </Link>
+              </li>
+              {/* Favourites and Phone number for mobile - only shows in opened menu */}
+              <li className="md:hidden mt-4 pt-4 border-t border-teal-200">
+                <div className="flex items-center space-x-2">
+                  <Heart size={18} className="text-teal-200 flex-shrink-0" />
+                  <a
+                    href="/favourites"
+                    className="text-white hover:text-teal-200 hover:underline transition-colors"
+                  >
+                    <span>Favourites</span> <br />
+                    <span>{favouritesItems.length || 0} items</span>
+                  </a>
+                </div>
+              </li>
+              <li className="md:hidden mt-4 pt-4">
+                <div className="flex items-center space-x-2">
+                  <Phone size={18} className="text-teal-200 flex-shrink-0" />
+                  <a
+                    href="tel:+256774077357"
+                    className="text-white hover:text-teal-200 hover:underline transition-colors"
+                  >
+                    <span>24/7 Support: (+256) 774-077-357</span>
+                  </a>
+                </div>
               </li>
             </ul>
           </div>
