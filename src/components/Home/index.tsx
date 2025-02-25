@@ -8,7 +8,7 @@ import BestSeller from "./BestSeller";
 
 const Home = () => {
   return (
-    <main>
+    <main style={{ backgroundColor: "#f3f4f6" }}>
       <Hero />
       <Categories />
       <NewArrival />

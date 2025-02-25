@@ -13,6 +13,8 @@
 import { ReactNode } from "react";
 
 export type Product = {
+  categoryId: any;
+  _id: any;
   category: string;
   discountedPrice: ReactNode | Iterable<ReactNode>;
   tags: any;

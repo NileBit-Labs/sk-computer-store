@@ -33,18 +33,41 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-white">
                 <MapPin size={18} className="text-teal-200 flex-shrink-0" />
-                <a className="hover:underline transition-colors">
-                  Room B309 University Plaza, Wandegeya, Kampala, Uganda.
-                </a>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-white">
-                <Phone size={18} className="text-teal-200 flex-shrink-0" />
                 <a
-                  href="tel:+256394822154"
+                  href="https://maps.app.goo.gl/mjNy3SSePaNxwkzw5?g_st=com.google.maps.preview.copy"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:underline transition-colors"
                 >
-                  (+256) 394-822-154
+                  Room B09 University Plaza, Wandegeya, Kampala, Uganda. <br />{" "}
+                  Opposite Getwell Pharmacy
                 </a>
+              </div>
+              <div className="flex items-start gap-3 text-sm text-white p-4 bg-gray-800 rounded-lg max-w-xs">
+                <Phone size={18} className="text-teal-200 flex-shrink-0 mt-1" />
+
+                <div className="flex flex-col gap-2">
+                  <a
+                    href="tel:+256774077357"
+                    className="hover:underline transition-colors"
+                  >
+                    (+256) 774-077-357
+                  </a>
+
+                  <a
+                    href="tel:+256394822154"
+                    className="hover:underline transition-colors"
+                  >
+                    (+256) 394-822-154
+                  </a>
+
+                  <a
+                    href="tel:+256706931342"
+                    className="hover:underline transition-colors"
+                  >
+                    (+256) 706-931-342
+                  </a>
+                </div>
               </div>
               <div className="flex items-center gap-3 text-sm text-white">
                 <Mail size={18} className="text-teal-200 flex-shrink-0" />

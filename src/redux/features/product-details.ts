@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
 
 type InitialState = {
+  [x: string]: any;
   value: Product;
 };
 
@@ -16,7 +17,7 @@ const initialState = {
     id: 0,
     imgs: { thumbnails: [], previews: [] },
   },
-} as InitialState;
+} as unknown as InitialState;
 
 export const productDetails = createSlice({
   name: "productDetails",
