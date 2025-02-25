@@ -15,7 +15,6 @@ type FavouritesItem = {
     thumbnails: string[];
     previews: string[];
   };
-  imageUrl?: string; // Add support for imageUrl which is used in ProductItem
 };
 
 const initialState: InitialState = {
@@ -27,16 +26,8 @@ export const Favourites = createSlice({
   initialState,
   reducers: {
     addItemToFavourites: (state, action: PayloadAction<FavouritesItem>) => {
-      const {
-        id,
-        title,
-        price,
-        quantity,
-        imgs,
-        discountedPrice,
-        status,
-        imageUrl,
-      } = action.payload;
+      const { id, title, price, quantity, imgs, discountedPrice, status } =
+        action.payload;
       const existingItem = state.items.find((item) => item.id === id);
 
       if (existingItem) {
@@ -49,18 +40,13 @@ export const Favourites = createSlice({
           quantity,
           imgs,
           discountedPrice,
-          status: status || "available",
-          imageUrl,
+          status,
         });
       }
     },
-
     removeItemFromFavourites: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
-      const index = state.items.findIndex((item) => item.id === itemId);
-      if (index !== -1) {
-        state.items.splice(index, 1);
-      }
+      state.items = state.items.filter((item) => item.id !== itemId);
     },
 
     removeAllItemsFromFavourites: (state) => {

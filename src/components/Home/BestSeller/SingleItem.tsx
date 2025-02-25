@@ -21,43 +21,20 @@ const SingleItem = ({ item }: { item: Product }) => {
 
   // add to cart
   const handleAddToCart = () => {
-    // Format the product details
-    const productDetails = `${item.title} - ${item.price}`;
-
-    // Create message
-    const message = `Hello, I'm interested in this product: ${productDetails}`;
-
-    // Get current URL
-    const productUrl = `${window.location.origin}${window.location.pathname}`;
-
-    // Combine message with URL
-    const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
-
-    // Encode the message
-    const encodedMessage = encodeURIComponent(fullMessage);
-
-    // WhatsApp number
-    const whatsappNumber = "256774077357";
-
-    // Create and open WhatsApp URL
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-      "_blank"
+    dispatch(
+      addItemToCart({
+        ...item,
+        quantity: 1,
+      })
     );
   };
 
   const handleItemToFavourites = () => {
     dispatch(
       addItemToFavourites({
-        id: Number(item.id),
-        title: item.title,
-        price: Number(item.price),
-        discountedPrice: item.discountedPrice
-          ? Number(item.discountedPrice)
-          : Number(item.price),
+        ...item,
+        status: "available",
         quantity: 1,
-        imageUrl: item.imageUrl,
-        imgs: item.imgs,
       })
     );
   };
@@ -99,6 +76,8 @@ const SingleItem = ({ item }: { item: Product }) => {
                 height={14}
               />
             </div>
+
+            <p className="text-custom-sm">({item.reviews})</p>
           </div>
 
           <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">

@@ -28,34 +28,6 @@
   animation: tilt 10s infinite linear;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-:root {
-  --primary-gradient: linear-gradient(to right, #4158d0, #c850c0);
-  --secondary-gradient: linear-gradient(to right, #ffdd00, #ffb100);
-  --accent-color: #f71735;
-  --highlight-gradient: linear-gradient(
-    135deg,
-    #4158d0 0%,
-    #c850c0 46%,
-    #ffcc70 100%
-  );
-  --hero-height: 450px;
-}
-
 @keyframes tilt {
   0%,
   50%,

@@ -17,9 +17,6 @@ const Header = () => {
 
   const product = useAppSelector((state) => state.cartReducer.items);
   const totalPrice = useSelector(selectTotalPrice);
-  const favouritesItems = useAppSelector(
-    (state) => state.FavouritesReducer.items
-  );
 
   const handleOpenCartModal = () => {
     openCartModal();
@@ -109,9 +106,7 @@ const Header = () => {
                 <Heart size={22} />
                 <div className="flex flex-col">
                   <span className="text-xs font-medium">Favourites</span>
-                  <span className="text-sm">
-                    {favouritesItems.length || 0} items
-                  </span>
+                  <span className="text-sm">{product.length} items</span>
                 </div>
               </Link>
 

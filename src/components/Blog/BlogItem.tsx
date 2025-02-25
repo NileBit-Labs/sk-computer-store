@@ -8,7 +8,7 @@ const BlogItem = ({ blog }: { blog: BlogItem }) => {
     <div className="shadow-1 bg-white rounded-xl px-4 sm:px-5 pt-5 pb-4">
       <Link href="/blogs/blog-details" className="rounded-md overflow-hidden">
         <Image
-          src={blog?.img}
+          src={blog.img}
           alt="blog"
           className="rounded-md w-full"
           width={330}
@@ -32,12 +32,12 @@ const BlogItem = ({ blog }: { blog: BlogItem }) => {
             href="#"
             className="text-custom-sm ease-out duration-200 hover:text-blue"
           >
-            {blog?.views} Views
+            {blog.views} Views
           </a>
         </span>
 
         <h2 className="font-medium text-dark text-lg sm:text-xl ease-out duration-200 mb-4 hover:text-blue">
-          <Link href="/blogs/blog-details">{blog?.title}</Link>
+          <Link href="/blogs/blog-details">{blog.title}</Link>
         </h2>
 
         <Link

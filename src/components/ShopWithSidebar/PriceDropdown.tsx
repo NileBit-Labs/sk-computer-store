@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Slider from "react-slider";
+
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
-const PriceDropdown = ({ products, setFilteredProducts }) => {
+const PriceDropdown = () => {
   const [toggleDropdown, setToggleDropdown] = useState(true);
 
   const [selectedPrice, setSelectedPrice] = useState({
     from: 0,
-    to: 10000000,
+    to: 100,
   });
-
-  useEffect(() => {
-    if (products) {
-      const filtered = products.filter(
-        (product) =>
-          product.price >= selectedPrice.from &&
-          product.price <= selectedPrice.to
-      );
-      setFilteredProducts(filtered);
-    }
-  }, [selectedPrice, products, setFilteredProducts]);
 
   return (
     <div className="bg-white shadow-1 rounded-lg">
@@ -62,7 +53,7 @@ const PriceDropdown = ({ products, setFilteredProducts }) => {
               id="range-slider-gradient"
               className="margin-lg"
               step={"any"}
-              onChange={(e) =>
+              onInput={(e) =>
                 setSelectedPrice({
                   from: Math.floor(e[0]),
                   to: Math.ceil(e[1]),
@@ -73,7 +64,7 @@ const PriceDropdown = ({ products, setFilteredProducts }) => {
             <div className="price-amount flex items-center justify-between pt-4">
               <div className="text-custom-xs text-dark-4 flex rounded border border-gray-3/80">
                 <span className="block border-r border-gray-3/80 px-2.5 py-1.5">
-                  UGX
+                  $
                 </span>
                 <span id="minAmount" className="block px-3 py-1.5">
                   {selectedPrice.from}
@@ -82,7 +73,7 @@ const PriceDropdown = ({ products, setFilteredProducts }) => {
 
               <div className="text-custom-xs text-dark-4 flex rounded border border-gray-3/80">
                 <span className="block border-r border-gray-3/80 px-2.5 py-1.5">
-                  UGX
+                  $
                 </span>
                 <span id="maxAmount" className="block px-3 py-1.5">
                   {selectedPrice.to}

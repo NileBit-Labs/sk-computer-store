@@ -1,73 +1,34 @@
-/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
-import Link from "next/link";
 
 import { removeItemFromFavourites } from "@/redux/features/favourites-slice";
+import { addItemToCart } from "@/redux/features/cart-slice";
+
 import Image from "next/image";
-import { useModalContext } from "@/app/context/QuickViewModalContext";
-import { updateQuickView } from "@/redux/features/quickView-slice";
 
 const SingleItem = ({ item }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const modalContext = useModalContext();
 
   const handleRemoveFromFavourites = () => {
     dispatch(removeItemFromFavourites(item.id));
   };
 
   const handleAddToCart = () => {
-    // Format the product details
-    const productDetails = `${item.title} - ${item.price}`;
-
-    // Create message
-    const message = `Hello, I'm interested in this product: ${productDetails}`;
-
-    // Get current URL
-    const productUrl = `${window.location.origin}${window.location.pathname}`;
-
-    // Combine message with URL
-    const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
-
-    // Encode the message
-    const encodedMessage = encodeURIComponent(fullMessage);
-
-    // WhatsApp number
-    const whatsappNumber = "256774077357";
-
-    // Create and open WhatsApp URL
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-      "_blank"
+    dispatch(
+      addItemToCart({
+        ...item,
+        quantity: 1,
+      })
     );
-  };
-
-  // Format price to UGX currency
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-UG", {
-      style: "currency",
-      currency: "UGX",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
-
-  // Determine image source - use first thumbnail if available, otherwise use imageUrl
-  const imageSource =
-    item.imgs?.thumbnails?.[0] || item.imageUrl || "/placeholder.jpg";
-
-  const handleQuickView = () => {
-    modalContext.openModal();
-    dispatch(updateQuickView(item));
   };
 
   return (
     <div className="flex items-center border-t border-gray-3 py-5 px-10">
-      {/* Remove from favorites button */}
       <div className="min-w-[83px]">
         <button
-          onClick={handleRemoveFromFavourites}
-          aria-label="Remove product from Favourites"
+          onClick={() => handleRemoveFromFavourites()}
+          aria-label="button for remove product from Favourites"
           className="flex items-center justify-center rounded-lg max-w-[38px] w-full h-9.5 bg-gray-2 border border-gray-3 ease-out duration-200 hover:bg-red-light-6 hover:border-red-light-4 hover:text-red"
         >
           <svg
@@ -92,102 +53,66 @@ const SingleItem = ({ item }) => {
         </button>
       </div>
 
-      {/* Product image and title */}
-      <div className="min-w-[387px] group">
+      <div className="min-w-[387px]">
         <div className="flex items-center justify-between gap-5">
           <div className="w-full flex items-center gap-5.5">
-            <div className="flex items-center justify-center rounded-[5px] bg-gray-2 max-w-[80px] w-full h-17.5 overflow-hidden">
-              <button
-                onClick={handleQuickView}
-                className="block w-full"
-                aria-label={`View ${item.title}`}
-              >
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="h-full w-full object-contain p-2 transition-all duration-700 ease-out group-hover:scale-105"
-                />
-              </button>
+            <div className="flex items-center justify-center rounded-[5px] bg-gray-2 max-w-[80px] w-full h-17.5">
+              <Image
+                src={item.imgs?.thumbnails[0]}
+                alt="product"
+                width={200}
+                height={200}
+              />
             </div>
 
             <div>
-              <h3 className="text-dark ease-out duration-200 hover:text-[#00918e]">
-                <button onClick={handleQuickView} className="text-left">
-                  {item.title}
-                </button>
+              <h3 className="text-dark ease-out duration-200 hover:text-blue">
+                <a href="#"> {item.title} </a>
               </h3>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Price */}
       <div className="min-w-[205px]">
-        <p className="text-dark">
-          {formatPrice(item.discountedPrice || item.price)}
-        </p>
+        <p className="text-dark">${item.discountedPrice}</p>
       </div>
 
-      {/* Stock status */}
       <div className="min-w-[265px]">
-        {item.status === "out_of_stock" ? (
-          <div className="flex items-center gap-1.5">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9.99935 14.7917C10.3445 14.7917 10.6243 14.5119 10.6243 14.1667V9.16669C10.6243 8.82151 10.3445 8.54169 9.99935 8.54169C9.65417 8.54169 9.37435 8.82151 9.37435 9.16669V14.1667C9.37435 14.5119 9.65417 14.7917 9.99935 14.7917Z"
-                fill="#F23030"
-              />
-              <path
-                d="M9.99935 5.83335C10.4596 5.83335 10.8327 6.20645 10.8327 6.66669C10.8327 7.12692 10.4596 7.50002 9.99935 7.50002C9.53911 7.50002 9.16602 7.12692 9.16602 6.66669C9.16602 6.20645 9.53911 5.83335 9.99935 5.83335Z"
-                fill="#F23030"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M1.04102 10C1.04102 5.05247 5.0518 1.04169 9.99935 1.04169C14.9469 1.04169 18.9577 5.05247 18.9577 10C18.9577 14.9476 14.9469 18.9584 9.99935 18.9584C5.0518 18.9584 1.04102 14.9476 1.04102 10ZM9.99935 2.29169C5.74215 2.29169 2.29102 5.74283 2.29102 10C2.29102 14.2572 5.74215 17.7084 9.99935 17.7084C14.2565 17.7084 17.7077 14.2572 17.7077 10C17.7077 5.74283 14.2565 2.29169 9.99935 2.29169Z"
-                fill="#F23030"
-              />
-            </svg>
-            <span className="text-red"> Out of Stock </span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-1.5">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.6 12.8L5.4 9.6L4 11L8.6 15.6L16.6 7.6L15.2 6.2L8.6 12.8Z"
-                fill="#00C566"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M1.04102 10C1.04102 5.05247 5.0518 1.04169 9.99935 1.04169C14.9469 1.04169 18.9577 5.05247 18.9577 10C18.9577 14.9476 14.9469 18.9584 9.99935 18.9584C5.0518 18.9584 1.04102 14.9476 1.04102 10ZM9.99935 2.29169C5.74215 2.29169 2.29102 5.74283 2.29102 10C2.29102 14.2572 5.74215 17.7084 9.99935 17.7084C14.2565 17.7084 17.7077 14.2572 17.7077 10C17.7077 5.74283 14.2565 2.29169 9.99935 2.29169Z"
-                fill="#00C566"
-              />
-            </svg>
-            <span className="text-green-500"> In Stock </span>
-          </div>
-        )}
+        <div className="flex items-center gap-1.5">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.99935 14.7917C10.3445 14.7917 10.6243 14.5119 10.6243 14.1667V9.16669C10.6243 8.82151 10.3445 8.54169 9.99935 8.54169C9.65417 8.54169 9.37435 8.82151 9.37435 9.16669V14.1667C9.37435 14.5119 9.65417 14.7917 9.99935 14.7917Z"
+              fill="#F23030"
+            />
+            <path
+              d="M9.99935 5.83335C10.4596 5.83335 10.8327 6.20645 10.8327 6.66669C10.8327 7.12692 10.4596 7.50002 9.99935 7.50002C9.53911 7.50002 9.16602 7.12692 9.16602 6.66669C9.16602 6.20645 9.53911 5.83335 9.99935 5.83335Z"
+              fill="#F23030"
+            />
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M1.04102 10C1.04102 5.05247 5.0518 1.04169 9.99935 1.04169C14.9469 1.04169 18.9577 5.05247 18.9577 10C18.9577 14.9476 14.9469 18.9584 9.99935 18.9584C5.0518 18.9584 1.04102 14.9476 1.04102 10ZM9.99935 2.29169C5.74215 2.29169 2.29102 5.74283 2.29102 10C2.29102 14.2572 5.74215 17.7084 9.99935 17.7084C14.2565 17.7084 17.7077 14.2572 17.7077 10C17.7077 5.74283 14.2565 2.29169 9.99935 2.29169Z"
+              fill="#F23030"
+            />
+          </svg>
+
+          <span className="text-red"> Out of Stock </span>
+        </div>
       </div>
 
-      {/* Buy button */}
       <div className="min-w-[150px] flex justify-end">
         <button
-          onClick={handleAddToCart}
-          className="inline-flex transform items-center gap-2 rounded-lg bg-[#00918e] px-5 py-2.5 font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-[#013634]"
+          onClick={() => handleAddToCart()}
+          className="inline-flex text-dark hover:text-white bg-gray-1 border border-gray-3 py-2.5 px-6 rounded-md ease-out duration-200 hover:bg-blue hover:border-gray-3"
         >
-          <span>Buy</span>
+          Buy
         </button>
       </div>
     </div>

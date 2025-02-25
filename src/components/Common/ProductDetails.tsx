@@ -15,44 +15,20 @@ const ProductDetails = () => {
 
   // Handlers
   const handleAddToCart = () => {
-    // Format the product details
-    const productDetails = `${product.name} - ${product.price}`;
-
-    // Create message
-    const message = `Hello, I'm interested in this product: ${productDetails}`;
-
-    // Get current URL
-    const productUrl = `${window.location.origin}${window.location.pathname}`;
-
-    // Combine message with URL
-    const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
-
-    // Encode the message
-    const encodedMessage = encodeURIComponent(fullMessage);
-
-    // WhatsApp number
-    const whatsappNumber = "256774077357";
-
-    // Create and open WhatsApp URL
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-      "_blank"
+    dispatch(
+      addItemToCart({
+        ...product,
+        quantity: quantity,
+      })
     );
   };
 
   const handleAddToFavourites = () => {
     dispatch(
       addItemToFavourites({
-        id: Number(product.id),
-        title: product.title,
-        price: Number(product.price),
-        discountedPrice: product.discountedPrice
-          ? Number(product.discountedPrice)
-          : Number(product.price),
+        ...product,
+        status: "available",
         quantity: 1,
-        status: product.status || "available",
-        imageUrl: product.imageUrl,
-        imgs: product.imgs,
       })
     );
   };

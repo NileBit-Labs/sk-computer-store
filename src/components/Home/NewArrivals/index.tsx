@@ -2,11 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ProductItem from "@/components/Common/ProductItem";
-import { fetchGadgets } from "@/components/Shop/shopData";
+import {fetchGadgets} from "@/components/Shop/shopData";
 
-const NewArrival = async () => {
-  const products = await fetchGadgets();
-  console.log("Productssssssssssssss:yf ud", products);
+const NewArrival = async() => {
+ 
+   const products = await fetchGadgets();
+   console.log('Productssssssssssssss:yf ud', products);
   return (
     <section className="overflow-hidden pt-15">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
