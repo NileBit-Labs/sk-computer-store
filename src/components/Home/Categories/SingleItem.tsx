@@ -19,15 +19,16 @@ const SingleItem = ({ item, onSelect }: CategoryItemProps) => {
       onClick={() => onSelect(item._id)}
       className="group flex flex-col items-center w-full"
     >
-      <div className="max-w-[130px] w-full bg-[#F2F3F8] h-32.5 rounded-full flex items-center justify-center mb-4">
+      <div className="max-w-[130px] w-full h-32 rounded-full relative mb-4 overflow-hidden">
         {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt={item.title}
-            width={82}
-            height={62}
-            className="object-contain"
-          />
+          <div className="absolute inset-0 bg-[#F2F3F8] flex items-center justify-center">
+            <Image
+              src={imageUrl}
+              alt={item.title}
+              fill
+              className="object-cover"
+            />
+          </div>
         )}
       </div>
 

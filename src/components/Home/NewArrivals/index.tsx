@@ -1,12 +1,12 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import ProductItem from "@/components/Common/ProductItem";
-import { fetchGadgets } from "@/components/Shop/shopData";
+import { fetchNewArrivals } from "@/components/Shop/shopData";
 
 const NewArrival = async () => {
-  const products = await fetchGadgets();
-  console.log("Productssssssssssssss:yf ud", products);
+  // Fetch 8 newest products
+  const products = await fetchNewArrivals(12);
+
   return (
     <section className="overflow-hidden pt-15">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
@@ -47,12 +47,17 @@ const NewArrival = async () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-7.5 gap-y-9">
-          {/* <!-- New Arrivals item --> */}
-          {products.map((item, key) => (
-            <ProductItem item={item} key={key} />
-          ))}
-        </div>
+        {products.length === 0 ? (
+          <div className="text-center py-10">
+            <p>No new arrivals found. Check back soon!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-7.5 gap-y-9">
+            {products.map((item, key) => (
+              <ProductItem item={item} key={key} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

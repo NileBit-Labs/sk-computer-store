@@ -166,10 +166,10 @@ const ShopWithSidebar = () => {
                   {/* <ColorsDropdwon /> */}
 
                   {/* // <!-- price range box --> */}
-                  <PriceDropdown
+                  {/* <PriceDropdown
                     products={undefined}
                     setFilteredProducts={undefined}
-                  />
+                  /> */}
                 </div>
               </form>
             </div>
