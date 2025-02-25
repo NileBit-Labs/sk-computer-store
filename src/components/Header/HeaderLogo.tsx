@@ -9,8 +9,8 @@ const HeaderLogo = () => {
         <Image
           src="/images/logo/SK_logo_green.jpg"
           alt="SK Logo"
-          width={150}
-          height={150}
+          width={120}
+          height={120}
           className="rounded-lg transition-transform duration-300 group-hover:scale-105"
         />
         {/* Subtle shine effect */}

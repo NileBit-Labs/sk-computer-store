@@ -170,14 +170,14 @@ const Hero = () => {
           className="grid grid-cols-1 xl:grid-cols-3 gap-10"
         >
           {/* Main Carousel */}
-          <motion.div variants={itemVariants} className="xl:col-span-2 mt-20">
+          <motion.div variants={itemVariants} className="xl:col-span-2">
             <div className="rounded-3xl overflow-hidden shadow-2xl border-2 border-[#00918e]">
               <HeroCarousel />
             </div>
           </motion.div>
 
           {/* Promo Cards */}
-          <div className="flex flex-col justify-between gap-4 mt-20">
+          <div className="flex flex-col justify-between gap-4">
             {products.map((product, index) => (
               <PromoCard
                 key={product._id || index}

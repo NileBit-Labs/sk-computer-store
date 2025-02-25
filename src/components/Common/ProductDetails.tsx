@@ -129,7 +129,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ productId }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 mt-30">
+    <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <div className="mb-8">
         <button

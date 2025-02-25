@@ -52,14 +52,14 @@ const Header = () => {
           stickyMenu ? "shadow-lg" : ""
         }`}
       >
-        {/* Top Bar */}
+        {/* Top Bar - slightly reduced */}
         <div className="w-full">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-white"></div>
+          <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-white"></div>
         </div>
 
-        {/* Main Header */}
+        {/* Main Header - slightly reduced */}
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between py-4">
+          <div className="flex items-center justify-between py-3">
             {/* Logo and Search */}
             <div className="flex items-center justify-between w-full relative">
               <div className="flex-shrink-0 z-20">
@@ -78,7 +78,7 @@ const Header = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search products..."
-                      className="w-full pl-4 pr-10 py-2.5 border border-l-0 border-white rounded-r-lg focus:outline-none focus:border-teal-200 bg-[#00918e] text-white placeholder-teal-200"
+                      className="w-full pl-4 pr-10 py-2 border border-l-0 border-white rounded-r-lg focus:outline-none focus:border-teal-200 bg-[#00918e] text-white placeholder-teal-200"
                     />
                     <button className="absolute right-3 top-1/2 -translate-y-1/2 text-teal-200 hover:text-white transition-colors">
                       <Search size={20} />
@@ -92,11 +92,17 @@ const Header = () => {
                 style={{ paddingRight: "70px" }}
               >
                 <Phone size={18} className="text-teal-200 flex-shrink-0" />
-                <span className="text-sm hover:underline transition-colors">
-                  24/7 Support:
-                  <br />
-                  (+256) 394-822-154
-                </span>
+
+                <a
+                  href="tel:+256774077357"
+                  className="hover:underline transition-colors"
+                >
+                  <span className="text-sm hover:underline transition-colors">
+                    24/7 Support:
+                    <br />
+                    (+256) 774-077-357
+                  </span>
+                </a>
               </div>
             </div>
 
@@ -142,9 +148,9 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Navigation - slightly reduced */}
         <nav
-          className={`border-t border-white ${stickyMenu ? "py-2" : "py-3"} max-w-2xl mx-auto px-4`}
+          className={`border-t border-white ${stickyMenu ? "py-2" : "py-2.5"} max-w-2xl mx-auto px-4`}
         >
           <div className="max-w-7xl mx-auto px-4 flex justify-center">
             <ul
@@ -178,7 +184,8 @@ const Header = () => {
           </div>
         </nav>
       </header>
-      <div className="h-[0px]"></div>
+      {/* Slightly increased from original to accommodate header */}
+      <div className="h-[120px]"></div>
     </>
   );
 };
