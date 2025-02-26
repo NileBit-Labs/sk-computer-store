@@ -6,6 +6,7 @@ import HeroFeature from "./HeroFeature";
 import Image from "next/image";
 import { fetchOffers } from "./offerData";
 import { motion } from "framer-motion";
+import { offer } from "@/sanity/schemaTypes/offers";
 
 const calculateDiscountedPrice = (price, discount) => {
   return (price - (price * discount) / 100).toFixed(0);
@@ -20,6 +21,20 @@ const itemVariants = {
   },
 };
 
+const handleAddToCart = (product) => {
+  const productDetails = `${product.title} - ${product.discount}%`;
+  const discountedPrice = calculateDiscountedPrice(product.price, product.discount);
+  const message = `Hello, I'm interested in this product: ${productDetails}\nPrice: UGX ${discountedPrice} (Original: UGX ${product.price})`;
+  const productUrl = `${window.location.origin}${window.location.pathname}`;
+  const fullMessage = `${message}\n\nProduct Link: ${productUrl}`;
+  const encodedMessage = encodeURIComponent(fullMessage);
+  const whatsappNumber = "256774077357";
+  window.open(
+    `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+    "_blank"
+  );
+};
+
 const PromoCard = ({ product, openModal, handleQuickViewUpdate }) => {
   return (
     <motion.div
@@ -28,10 +43,7 @@ const PromoCard = ({ product, openModal, handleQuickViewUpdate }) => {
       // transition={{ duration: 0.5 }}
       whileHover={{ y: -5, scale: 1.02 }}
       className="relative h-[215px] overflow-hidden rounded-2xl bg-gradient-to-br from-white to-orange-50 dark:from-gray-900 dark:to-orange-950 p-6 shadow-xl border-2 border-orange-500 dark:border-orange-600 group cursor-pointer"
-      onClick={() => {
-        openModal();
-        handleQuickViewUpdate();
-      }}
+      onClick={() => handleAddToCart(product)}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
