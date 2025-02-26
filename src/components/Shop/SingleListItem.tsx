@@ -1,8 +1,6 @@
-// src/components/Shop/SingleListItem.tsx
-
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
-
 import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { updateQuickView } from "@/redux/features/quickView-slice";
@@ -11,15 +9,22 @@ import { addItemToFavourites } from "@/redux/features/favourites-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
-import Image from "next/image";
+import { updateproductDetails } from "@/redux/features/product-details";
+import { useRouter } from "next/navigation";
 
 const SingleListItem = ({ item }: { item: Product }) => {
+  const router = useRouter();
   const { openModal } = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
 
   // update the QuickView state
   const handleQuickViewUpdate = () => {
     dispatch(updateQuickView({ ...item }));
+  };
+
+  const handleNavigateToDetails = () => {
+    dispatch(updateproductDetails(item));
+    router.push(`/product-details/${item.id || item._id}`);
   };
 
   // add to cart
@@ -66,121 +71,194 @@ const SingleListItem = ({ item }: { item: Product }) => {
   };
 
   return (
-    <div className="group rounded-lg bg-white shadow-1">
-      <div className="flex">
-        <div className="shadow-list relative overflow-hidden flex items-center justify-center max-w-[270px] w-full sm:min-h-[270px] p-4">
-          <Image src={item?.imageUrl} alt="" width={250} height={250} />
-
-          <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
-            <button
-              onClick={() => {
-                openModal();
-                handleQuickViewUpdate();
-              }}
-              aria-label="button for quick view"
-              className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
-            >
-              <svg
-                className="fill-current"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+    <div className="group relative rounded-2xl bg-white p-4 transition-all duration-300 hover:shadow-2xl">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+        {/* Product Image Section */}
+        <div className="relative w-full md:w-1/3">
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#00918e]/10 to-blue-50 p-0.5">
+            <div className="relative overflow-hidden rounded-xl bg-white">
+              <a
+                onClick={() => {
+                  openModal();
+                  handleQuickViewUpdate();
+                }}
+                className="block"
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M8.00016 5.5C6.61945 5.5 5.50016 6.61929 5.50016 8C5.50016 9.38071 6.61945 10.5 8.00016 10.5C9.38087 10.5 10.5002 9.38071 10.5002 8C10.5002 6.61929 9.38087 5.5 8.00016 5.5ZM6.50016 8C6.50016 7.17157 7.17174 6.5 8.00016 6.5C8.82859 6.5 9.50016 7.17157 9.50016 8C9.50016 8.82842 8.82859 9.5 8.00016 9.5C7.17174 9.5 6.50016 8.82842 6.50016 8Z"
-                  fill=""
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="h-[180px] md:h-[220px] w-full object-contain p-4 transition-all duration-700 ease-out group-hover:scale-105"
                 />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M8.00016 2.16666C4.99074 2.16666 2.96369 3.96946 1.78721 5.49791L1.76599 5.52546C1.49992 5.87102 1.25487 6.18928 1.08862 6.5656C0.910592 6.96858 0.833496 7.40779 0.833496 8C0.833496 8.5922 0.910592 9.03142 1.08862 9.4344C1.25487 9.81072 1.49992 10.129 1.76599 10.4745L1.78721 10.5021C2.96369 12.0305 4.99074 13.8333 8.00016 13.8333C11.0096 13.8333 13.0366 12.0305 14.2131 10.5021L14.2343 10.4745C14.5004 10.129 14.7455 9.81072 14.9117 9.4344C15.0897 9.03142 15.1668 8.5922 15.1668 8C15.1668 7.40779 15.0897 6.96858 14.9117 6.5656C14.7455 6.18927 14.5004 5.87101 14.2343 5.52545L14.2131 5.49791C13.0366 3.96946 11.0096 2.16666 8.00016 2.16666ZM2.57964 6.10786C3.66592 4.69661 5.43374 3.16666 8.00016 3.16666C10.5666 3.16666 12.3344 4.69661 13.4207 6.10786C13.7131 6.48772 13.8843 6.7147 13.997 6.9697C14.1023 7.20801 14.1668 7.49929 14.1668 8C14.1668 8.50071 14.1023 8.79199 13.997 9.0303C13.8843 9.28529 13.7131 9.51227 13.4207 9.89213C12.3344 11.3034 10.5666 12.8333 8.00016 12.8333C5.43374 12.8333 3.66592 11.3034 2.57964 9.89213C2.28725 9.51227 2.11599 9.28529 2.00334 9.0303C1.89805 8.79199 1.8335 8.50071 1.8335 8C1.8335 7.49929 1.89805 7.20801 2.00334 6.9697C2.11599 6.7147 2.28725 6.48772 2.57964 6.10786Z"
-                  fill=""
-                />
-              </svg>
-            </button>
+              </a>
 
-            <button
-              onClick={() => handleAddToCart()}
-              className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-[#00918e] text-white ease-out duration-200 hover:bg-[#013634]"
-            >
-              Buy
-            </button>
+              {/* Action buttons overlay */}
+              <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-gray-900/50 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100">
+                <div className="mb-4 flex items-center gap-3 px-4">
+                  <button
+                    onClick={() => {
+                      openModal();
+                      handleQuickViewUpdate();
+                    }}
+                    className="rounded-full bg-white/95 p-2.5 text-gray-800 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-white hover:text-[#00918e]"
+                    aria-label="Quick view"
+                  >
+                    <svg
+                      className="h-4.5 w-4.5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path
+                        fillRule="evenodd"
+                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
 
-            <button
-              onClick={() => handleItemToFavourites()}
-              aria-label="button for favorite select"
-              className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
-            >
-              <svg
-                className="fill-current"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M3.74949 2.94946C2.6435 3.45502 1.83325 4.65749 1.83325 6.0914C1.83325 7.55633 2.43273 8.68549 3.29211 9.65318C4.0004 10.4507 4.85781 11.1118 5.694 11.7564C5.89261 11.9095 6.09002 12.0617 6.28395 12.2146C6.63464 12.491 6.94747 12.7337 7.24899 12.9099C7.55068 13.0862 7.79352 13.1667 7.99992 13.1667C8.20632 13.1667 8.44916 13.0862 8.75085 12.9099C9.05237 12.7337 9.3652 12.491 9.71589 12.2146C9.90982 12.0617 10.1072 11.9095 10.3058 11.7564C11.142 11.1118 11.9994 10.4507 12.7077 9.65318C13.5671 8.68549 14.1666 7.55633 14.1666 6.0914C14.1666 4.65749 13.3563 3.45502 12.2503 2.94946C11.1759 2.45832 9.73214 2.58839 8.36016 4.01382C8.2659 4.11175 8.13584 4.16709 7.99992 4.16709C7.864 4.16709 7.73393 4.11175 7.63967 4.01382C6.26769 2.58839 4.82396 2.45832 3.74949 2.94946ZM7.99992 2.97255C6.45855 1.5935 4.73256 1.40058 3.33376 2.03998C1.85639 2.71528 0.833252 4.28336 0.833252 6.0914C0.833252 7.86842 1.57358 9.22404 2.5444 10.3172C3.32183 11.1926 4.2734 11.9253 5.1138 12.5724C5.30431 12.7191 5.48911 12.8614 5.66486 12.9999C6.00636 13.2691 6.37295 13.5562 6.74447 13.7733C7.11582 13.9903 7.53965 14.1667 7.99992 14.1667C8.46018 14.1667 8.88401 13.9903 9.25537 13.7733C9.62689 13.5562 9.99348 13.2691 10.335 12.9999C10.5107 12.8614 10.6955 12.7191 10.886 12.5724C11.7264 11.9253 12.678 11.1926 13.4554 10.3172C14.4263 9.22404 15.1666 7.86842 15.1666 6.0914C15.1666 4.28336 14.1434 2.71528 12.6661 2.03998C11.2673 1.40058 9.54129 1.5935 7.99992 2.97255Z"
-                  fill=""
-                />
-              </svg>
-            </button>
+                  <button
+                    onClick={handleItemToFavourites}
+                    className="rounded-full bg-white/95 p-2.5 text-gray-800 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-white hover:text-rose-600"
+                    aria-label="Add to favorites"
+                  >
+                    <svg
+                      className="h-4.5 w-4.5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-5 sm:flex-row sm:items-center justify-center sm:justify-between py-5 px-4 sm:px-7.5 lg:pl-11 lg:pr-12">
-          <div>
-            <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
-              <Link href="/shop-details"> {item.title} </Link>
-            </h3>
+        {/* Product Info Section */}
+        <div className="w-full md:w-2/3 flex flex-col justify-between">
+          <div className="space-y-2">
+            <button
+              onClick={handleNavigateToDetails}
+              className="block text-left"
+            >
+              <h3 className="text-xl font-bold text-[#00918e] transition-colors duration-200 hover:text-[#025250] line-clamp-2">
+                {item.title}
+              </h3>
+            </button>
 
-            <span className="flex items-center gap-2 font-medium text-lg">
-              <span className="text-dark">${item.description}</span>
-              <span className="text-dark-4 line-through">${item.price}</span>
-            </span>
-          </div>
+            {/* Price and Stock Section */}
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="text-lg font-medium text-gray-900">
+                  <span className="ml-1 text-sm font-medium text-gray-600">
+                    UGX{" "}
+                  </span>
+                  {item.price}
+                </span>
+                {item.discountedPrice && (
+                  <span className="text-sm line-through text-gray-500">
+                    <span className="text-xs">UGX </span>
+                    {item.discountedPrice}
+                  </span>
+                )}
+              </div>
 
-          <div className="flex items-center gap-2.5 mb-2">
-            <div className="flex items-center gap-1">
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={15}
-                height={15}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={15}
-                height={15}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={15}
-                height={15}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={15}
-                height={15}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={15}
-                height={15}
-              />
+              {/* In Stock Indicator - New addition */}
+              <div className="flex items-center gap-1">
+                {Number(item.stock) > 0 ? (
+                  <div className="flex items-center text-green-600">
+                    <svg
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="ml-1 text-sm font-medium">In Stock</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center text-red-600">
+                    <svg
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="ml-1 text-sm font-medium">
+                      Out of Stock
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <p className="text-custom-sm">({item.stock})</p>
+            {/* Product Description - New addition */}
+            <p className="text-sm text-gray-600 line-clamp-2 hidden md:block">
+              {item.description || "Product description not available."}
+            </p>
+
+            {/* Rating Section - Enhanced from the original */}
+            <div className="flex items-center gap-1">
+              {Array(5)
+                .fill(0)
+                .map((_, i) => (
+                  <svg
+                    key={i}
+                    className={`h-4 w-4 ${
+                      i < (item.rating || 5)
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                    }`}
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              <span className="ml-1 text-xs text-gray-600">
+                ({item.stock || 0} reviews)
+              </span>
+            </div>
+          </div>
+
+          {/* Buy Button and Delivery Info - New layout */}
+          <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <button
+              onClick={handleAddToCart}
+              className="inline-flex transform items-center gap-2 rounded-lg bg-[#00918e] px-6 py-2.5 font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-[#013634]"
+            >
+              <span>Buy Now</span>
+              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z" />
+              </svg>
+            </button>
+
+            {/* Delivery Info - New addition */}
+            <div className="flex items-center text-gray-600">
+              <svg
+                className="h-5 w-5 mr-1"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-5h2.05a2.5 2.5 0 014.9 0H19a1 1 0 001-1v-5a1 1 0 00-1-1h-8a1 1 0 00-.707.293l-2.58 2.58A1 1 0 008 6v2H3a1 1 0 00-1 1v6a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h2.05a2.5 2.5 0 014.9 0H19a1 1 0 001-1v-1h-1.05a2.5 2.5 0 00-4.9 0h-2.1a2.5 2.5 0 00-4.9 0H4a1 1 0 01-1-1V6a1 1 0 00-1-1h4a1 1 0 001-1V3a1 1 0 00-1-1H3zm9 3.5a.5.5 0 01.5.5v1a.5.5 0 01-.5.5h-1a.5.5 0 01-.5-.5v-1a.5.5 0 01.5-.5h1z" />
+              </svg>
+              <span className="text-xs">Free delivery within Kampala</span>
+            </div>
           </div>
         </div>
       </div>

@@ -27,4 +27,6 @@ export type Product = {
   imageUrl: string;
   categories: { title: string }[];
   stock: number;
+  rating?: number;
+  status?: string;
 };

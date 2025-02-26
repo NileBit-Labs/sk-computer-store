@@ -28,7 +28,11 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html
+      lang="en"
+      suppressHydrationWarning={true}
+      style={{ backgroundColor: "#f3f4f6" }}
+    >
       <body>
         {loading ? (
           <PreLoader />
