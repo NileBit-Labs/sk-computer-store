@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import CustomSelect from "./CustomSelect";
-import { Phone, Heart, Search, ShoppingCart, User, Clock } from "lucide-react";
+import { Phone, Heart, Search, ShoppingCart, Home, ShoppingBag, Info } from "lucide-react";
 import { useAppSelector } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { selectTotalPrice } from "@/redux/features/cart-slice";
@@ -15,6 +15,7 @@ const Header = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const { openCartModal } = useCartModalContext();
+  const menuRef = useRef(null);
 
   const product = useAppSelector((state) => state.cartReducer.items);
   const totalPrice = useSelector(selectTotalPrice);
@@ -26,6 +27,10 @@ const Header = () => {
     openCartModal();
   };
 
+  const closeMenu = () => {
+    setNavigationOpen(false);
+  };
+
   // Sticky menu
   useEffect(() => {
     const handleStickyMenu = () => {
@@ -34,6 +39,22 @@ const Header = () => {
     window.addEventListener("scroll", handleStickyMenu);
     return () => window.removeEventListener("scroll", handleStickyMenu);
   }, []);
+
+  // Close mobile menu when clicking outside or on menu items
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    if (navigationOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [navigationOpen]);
 
   const options = [
     { label: "All Categories", value: "0" },
@@ -102,8 +123,11 @@ const Header = () => {
 
               {/* Mobile Menu Toggle */}
               <button
-                onClick={() => setNavigationOpen(!navigationOpen)}
-                className="md:hidden p-2 hover:bg-teal-200 rounded-lg transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setNavigationOpen(!navigationOpen);
+                }}
+                className="md:hidden p-2 hover:bg-teal-700 rounded-lg transition-colors"
               >
                 <div className="w-6 h-4 flex flex-col justify-between">
                   <span
@@ -132,11 +156,8 @@ const Header = () => {
           className={`border-t border-white ${stickyMenu ? "py-2" : "py-2.5"} max-w-2xl mx-auto px-4`}
         >
           <div className="max-w-7xl mx-auto px-4 flex justify-center">
-            <ul
-              className={`md:flex items-center space-x-8 ${
-                navigationOpen ? "block" : "hidden"
-              }`}
-            >
+            {/* Desktop Navigation */}
+            <ul className="hidden md:flex items-center space-x-8">
               <li>
                 <Link
                   href="/"
@@ -161,31 +182,74 @@ const Header = () => {
                   About Us
                 </Link>
               </li>
-              {/* Favourites and Phone number for mobile - only shows in opened menu */}
-              <li className="md:hidden mt-4 pt-4 border-t border-teal-200">
-                <div className="flex items-center space-x-2">
-                  <Heart size={18} className="text-teal-200 flex-shrink-0" />
-                  <a
-                    href="/favourites"
-                    className="text-white hover:text-teal-200 hover:underline transition-colors"
-                  >
-                    <span>Favourites</span> <br />
-                    <span>{favouritesItems.length || 0} items</span>
-                  </a>
-                </div>
-              </li>
-              <li className="md:hidden mt-4 pt-4">
-                <div className="flex items-center space-x-2">
-                  <Phone size={18} className="text-teal-200 flex-shrink-0" />
-                  <a
-                    href="tel:+256774077357"
-                    className="text-white hover:text-teal-200 hover:underline transition-colors"
-                  >
-                    <span>24/7 Support: (+256) 774-077-357</span>
-                  </a>
-                </div>
-              </li>
             </ul>
+            
+            {/* Mobile Navigation */}
+            {navigationOpen && (
+              <div 
+                className="md:hidden absolute right-4 top-24 w-48 bg-white rounded-lg shadow-lg z-50 overflow-hidden"
+                ref={menuRef}
+              >
+                <ul className="py-2">
+                  <li>
+                    <Link
+                      href="/"
+                      onClick={closeMenu}
+                      className="flex items-center px-4 py-3 text-gray-700 hover:bg-teal-50 transition-colors"
+                    >
+                      <Home size={18} className="text-[#00918e] mr-3" />
+                      <span>Home</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/shop-with-sidebar"
+                      onClick={closeMenu}
+                      className="flex items-center px-4 py-3 text-gray-700 hover:bg-teal-50 transition-colors"
+                    >
+                      <ShoppingBag size={18} className="text-[#00918e] mr-3" />
+                      <span>Shop</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/aboutus"
+                      onClick={closeMenu}
+                      className="flex items-center px-4 py-3 text-gray-700 hover:bg-teal-50 transition-colors"
+                    >
+                      <Info size={18} className="text-[#00918e] mr-3" />
+                      <span>About Us</span>
+                    </Link>
+                  </li>
+                  <li className="border-t border-gray-100">
+                    <Link
+                      href="/favourites"
+                      onClick={closeMenu}
+                      className="flex items-center px-4 py-3 text-gray-700 hover:bg-teal-50 transition-colors"
+                    >
+                      <Heart size={18} className="text-[#00918e] mr-3" />
+                      <div className="flex flex-col">
+                        <span>Favourites</span>
+                        <span className="text-xs text-gray-500">{favouritesItems.length || 0} items</span>
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      href="tel:+256774077357"
+                      onClick={closeMenu}
+                      className="flex items-center px-4 py-3 text-gray-700 hover:bg-teal-50 transition-colors"
+                    >
+                      <Phone size={18} className="text-[#00918e] mr-3" />
+                      <div className="flex flex-col">
+                        <span>Support</span>
+                        <span className="text-xs text-gray-500">(+256) 774-077-357</span>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </nav>
       </header>

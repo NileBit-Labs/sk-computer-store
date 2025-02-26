@@ -257,7 +257,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
                 <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                 <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-5h2.05a2.5 2.5 0 014.9 0H19a1 1 0 001-1v-5a1 1 0 00-1-1h-8a1 1 0 00-.707.293l-2.58 2.58A1 1 0 008 6v2H3a1 1 0 00-1 1v6a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h2.05a2.5 2.5 0 014.9 0H19a1 1 0 001-1v-1h-1.05a2.5 2.5 0 00-4.9 0h-2.1a2.5 2.5 0 00-4.9 0H4a1 1 0 01-1-1V6a1 1 0 00-1-1h4a1 1 0 001-1V3a1 1 0 00-1-1H3zm9 3.5a.5.5 0 01.5.5v1a.5.5 0 01-.5.5h-1a.5.5 0 01-.5-.5v-1a.5.5 0 01.5-.5h1z" />
               </svg>
-              <span className="text-xs">Free delivery within Kampala</span>
+              <span className="text-xs">Delivery at a fee</span>
             </div>
           </div>
         </div>
