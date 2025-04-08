@@ -9,7 +9,7 @@ const Footer = () => {
       {/* Developer Signature */}
       <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8">
         <a
-          href="#"
+          href="https://nilebitlabs.com"
           className="text-sm text-white flex items-center gap-2 hover:text-teal-200 transition-colors underline"
         >
           <Code size={16} />
