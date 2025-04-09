@@ -10,6 +10,8 @@ const Footer = () => {
       <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8">
         <a
           href="https://nilebitlabs.com"
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-sm text-white flex items-center gap-2 hover:text-teal-200 transition-colors underline"
         >
           <Code size={16} />
