@@ -415,6 +415,7 @@ const BlogDetailsWithSidebar = () => {
   //     </section>
   //   </>
   // );
+  return null;
 };
 
 export default BlogDetailsWithSidebar;

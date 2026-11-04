@@ -3,7 +3,7 @@ import SingleItem from "./SingleItem";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchGadgets } from "@/components/Shop/shopData";
-import shopData from "@/components/Shop/shopData";
+
 
 const BestSeller = () => {
   return (

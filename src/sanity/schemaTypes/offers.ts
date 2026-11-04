@@ -40,8 +40,9 @@ export const offer = defineType({
     defineField({
         name: "categories",
         title: "Categories",
-        type: "array",
-        of: [{ type: "reference", to: [{ type: "category" }] }],
+        type: "array" as const,
+        of: [{ type: "reference" as const, to: [{ type: "category" }] }],
+        validation: (Rule) => Rule.required().min(1),
       }),
   ],
   preview: {

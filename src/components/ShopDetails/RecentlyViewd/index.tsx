@@ -99,6 +99,7 @@ const RecentlyViewdItems = () => {
   //     </div>
   //   </section>
   // );
+  return null;
 };
 
 export default RecentlyViewdItems;

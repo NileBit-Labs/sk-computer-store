@@ -13,7 +13,7 @@ export async function fetchCategories() {
     title,
     "imageUrl": image.asset->url,
     image,
-    "products": count(*[_type == "gadget" && references(^._id)])
+    "products": count(*[_type in ["gadget", "offer"] && references(^._id)])
   }`;
 
   return await client.fetch(query);
@@ -48,4 +48,14 @@ export async function fetchGadgetsByCategories(categoryIds: string[] = []) {
     }`;
 
   return await client.fetch(query, { categories: categoryIds });
+}
+
+// Offers and regular products are separate Sanity documents but share categories.
+export async function fetchShopItems(categoryIds: string[] = []) {
+  const query = `*[_type in ["gadget", "offer"] ${categoryIds.length ? "&& count((categories[]->_id)[@ in $categories]) > 0" : ""}] {
+    _id, _type, title, description, price, discount,
+    "imageUrl": image.asset->url, stock,
+    "categories": categories[]->{ _id, title }
+  }`;
+  return client.fetch(query, { categories: categoryIds });
 }

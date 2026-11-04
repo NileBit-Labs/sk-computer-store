@@ -13,6 +13,7 @@
 import { ReactNode } from "react";
 
 export type Product = {
+  _type?: "gadget";
   categoryId: any;
   _id: any;
   category: string;

@@ -267,6 +267,7 @@ const ShopWithoutSidebar = () => {
   //     </section>
   //   </>
   // );
+  return null;
 };
 
 export default ShopWithoutSidebar;
