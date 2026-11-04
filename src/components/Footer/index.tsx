@@ -6,21 +6,6 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#00918e] relative">
-      {/* Developer Signature */}
-      <div className="absolute bottom-4 right-4 md:bottom-8 md:right-8">
-        <a
-          href="https://nilebitlabs.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-white flex items-center gap-2 hover:text-teal-200 transition-colors underline"
-        >
-          <Code size={16} />
-          <span>
-            Crafted by <strong className="text-base">NileBit Labs</strong>
-          </span>
-        </a>
-      </div>
-
       <div className="mx-auto max-w-7xl px-4 pb-12 pt-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Company Info */}
@@ -195,6 +180,21 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      {/* Developer Signature */}
+      <div className="-mt-6 flex justify-center pb-8 md:mt-0 md:absolute md:bottom-8 md:right-8 md:block md:pb-0">
+        <a
+          href="https://nilebitlabs.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-white flex items-center gap-2 hover:text-teal-200 transition-colors underline"
+        >
+          <Code size={16} />
+          <span>
+            Crafted by <strong className="text-base">NileBit Labs</strong>
+          </span>
+        </a>
+      </div>
+
     </footer>
   );
 };

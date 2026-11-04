@@ -357,6 +357,9 @@ const HeroCarousel = () => {
     </motion.div>
   );
 
+  // Nothing to show (e.g. no offers in Sanity or request failed)
+  if (isLoaded && offers.length === 0) return null;
+
   return (
     <div
       className="relative overflow-hidden bg-white rounded-2xl"

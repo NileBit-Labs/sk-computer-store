@@ -74,14 +74,9 @@ const Header = () => {
           stickyMenu ? "shadow-lg" : ""
         }`}
       >
-        {/* Top Bar - slightly reduced */}
-        <div className="w-full">
-          <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-white"></div>
-        </div>
-
         {/* Main Header - slightly reduced */}
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between py-3">
+          <div className="flex items-center justify-between min-h-[88px] py-3 md:min-h-0">
             {/* Logo and Search */}
             <div className="flex items-center justify-between w-full relative">
               <div className="flex-shrink-0 z-20">
@@ -153,7 +148,7 @@ const Header = () => {
 
         {/* Navigation - slightly reduced */}
         <nav
-          className={`border-t border-white ${stickyMenu ? "py-2" : "py-2.5"} max-w-2xl mx-auto px-4`}
+          className={`md:border-t md:border-white/40 ${stickyMenu ? "md:py-2" : "md:py-2.5"} max-w-2xl mx-auto px-4`}
         >
           <div className="max-w-7xl mx-auto px-4 flex justify-center">
             {/* Desktop Navigation */}
@@ -254,7 +249,7 @@ const Header = () => {
         </nav>
       </header>
       {/* Slightly increased from original to accommodate header */}
-      <div className="h-[120px]"></div>
+      <div className="h-[88px] md:h-[117px]"></div>
     </>
   );
 };

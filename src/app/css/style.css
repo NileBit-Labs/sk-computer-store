@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Then your font faces and other styles */
-@font-face {
-  font-family: "Euclid Circular A";
-  src:
-    url("/path/to/font.woff2") format("woff2"),
-    url("/path/to/font.woff") format("woff");
-  /* rest of your font face declarations */
-}
 
 @keyframes spin-slow {
   from {

@@ -119,11 +119,12 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
         <button
           onClick={handleAddToCart}
           className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#00918e] px-3 py-2
-                     text-xs font-medium text-white transition-colors duration-200 hover:bg-[#007a78]
+                     whitespace-nowrap text-xs font-medium text-white transition-colors duration-200 hover:bg-[#007a78]
                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00918e] focus-visible:ring-offset-2 md:text-sm"
         >
           <CartIcon />
-          <span>Order on WhatsApp</span>
+          <span className="sm:hidden">Order now</span>
+          <span className="hidden sm:inline">Order on WhatsApp</span>
         </button>
       </div>
     </div>
