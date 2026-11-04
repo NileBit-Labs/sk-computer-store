@@ -1,22 +1,26 @@
-import React from "react";
-import Hero from "./Hero";
-import Categories from "./Categories";
-import NewArrival from "./NewArrivals";
-import PromoBanner from "./PromoBanner";
-import BestSeller from "./BestSeller";
-// import Testimonials from "./Testimonials";
+import Link from "next/link";
+import { ArrowRight, Laptop, Monitor, Headphones, Smartphone, MapPin, MessageCircle, Wrench } from "lucide-react";
+import { fetchNewArrivals } from "@/components/Shop/shopData";
+import ProductItem from "@/components/Common/ProductItem";
+import { fetchOffers } from "@/components/Home/Hero/offerData";
+import { fetchCategories } from "@/components/ShopWithSidebar/categoryUtils";
 
-const Home = () => {
-  return (
-    <main style={{ backgroundColor: "#f3f4f6" }}>
-      <Hero />
-      <Categories />
-      <NewArrival />
-      <PromoBanner />
-      {/* <BestSeller /> */}
-      {/* <Testimonials /> */}
-    </main>
-  );
-};
-
-export default Home;
+export default async function Home() {
+  const [products, categories, offers] = await Promise.all([fetchNewArrivals(8), fetchCategories().catch(() => []), fetchOffers().catch(() => [])]);
+  const priority = ["laptops", "desktops", "accessories", "smart phones"];
+  const featuredCategories = [...categories].sort((a, b) => { const ai = priority.indexOf(a.title.toLowerCase()); const bi = priority.indexOf(b.title.toLowerCase()); return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi); }).slice(0, 4);
+  const categoryIcons = [Laptop, Monitor, Headphones, Smartphone];
+  const featuredProduct = products.find((product) => /laptop|macbook|elitebook|probook|latitude/i.test(product.title) && product.imageUrl);
+  const featuredPrice = featuredProduct && new Intl.NumberFormat("en-UG", { style: "currency", currency: "UGX", minimumFractionDigits: 0 }).format(Number(featuredProduct.price));
+  return <main className="sk-home">
+    <section className="sk-storefront-hero"><div className="sk-wrap sk-storefront-grid">
+      <div className="sk-storefront-main"><div className="sk-storefront-copy"><span className="sk-storefront-kicker">SK COMPUTER STORE <span> / </span> KAMPALA</span><h1>Find the tech<br/><em>that fits your life.</em></h1><p>Laptops, desktops and accessories, with a local team ready to help you choose.</p><div className="sk-storefront-actions"><Link href="/shop-with-sidebar" className="sk-btn sk-btn-light">Shop all products <ArrowRight size={18}/></Link><a href="https://wa.me/256774077357">Need help choosing? <span>↗</span></a></div></div><img src="/images/hero/sk-hero-studio.png" className="sk-storefront-image" alt=""/><span className="sk-storefront-caption">TECH FOR WORK, STUDY & EVERYDAY</span></div>
+      {featuredProduct && <div className="sk-spotlight"><div className="sk-spotlight-heading"><span>FROM OUR COLLECTION</span><span>01 / 01</span></div><Link className="sk-spotlight-image" href={`/product-details/${featuredProduct.id}`} aria-label={`View ${featuredProduct.title}`}><img src={featuredProduct.imageUrl} alt={featuredProduct.title}/></Link><div className="sk-spotlight-details"><span>FEATURED LAPTOP</span><Link href={`/product-details/${featuredProduct.id}`}><h2>{featuredProduct.title}</h2></Link><div><strong>{featuredPrice}</strong><Link href={`/product-details/${featuredProduct.id}`} aria-label={`View ${featuredProduct.title}`}><ArrowRight size={19}/></Link></div></div></div>}
+    </div></section>
+    <div className="sk-service-strip"><div className="sk-wrap"><div><MessageCircle/><span><strong>Personal support</strong><small>Real people, ready to help</small></span></div><div><Wrench/><span><strong>Computer services</strong><small>Repairs and maintenance</small></span></div><div><MapPin/><span><strong>Visit our store</strong><small>University Plaza, Wandegeya</small></span></div></div></div>
+    <section className="sk-section sk-wrap"><div className="sk-section-head"><div><span className="sk-eyebrow">BROWSE THE STORE</span><h2>Shop by category<span>.</span></h2></div><Link href="/shop-with-sidebar" className="sk-link">View all categories <ArrowRight size={17}/></Link></div><div className="sk-categories">{featuredCategories.map((category, index) => { const Icon = categoryIcons[index % categoryIcons.length]; return <Link href={`/shop-with-sidebar?category=${encodeURIComponent(category._id)}`} key={category._id} className="sk-category"><span className="sk-category-number">SHOP {category.title.toUpperCase()}</span><Icon size={30} strokeWidth={1.4}/><div><h3>{category.title}</h3><span>Explore collection <ArrowRight size={15}/></span></div></Link>; })}</div></section>
+    {offers.length > 0 && <section className="sk-section sk-wrap sk-offers-section"><div className="sk-section-head"><div><span className="sk-eyebrow">SPECIAL OFFERS</span><h2>Deals from SK<span>.</span></h2><p>Explore the store’s current offers.</p></div></div><div className="sk-offer-grid">{offers.map((offer) => { const price = Number(offer.price); const discount = Number(offer.discount); const sale = price * (1 - discount / 100); const text = encodeURIComponent(`Hello, I’m interested in the ${offer.title} offer at UGX ${Math.round(sale).toLocaleString("en-UG")}.`); return <article className="sk-offer" key={offer._id}><div><span className="sk-offer-badge">{discount}% OFF</span><h3>{offer.title}</h3>{offer.description && <details className="sk-offer-description"><summary>Product details</summary><p>{offer.description}</p></details>}<p><strong>USh {Math.round(sale).toLocaleString("en-UG")}</strong> <del>USh {price.toLocaleString("en-UG")}</del></p><a href={`https://wa.me/256774077357?text=${text}`} target="_blank" rel="noopener noreferrer">Enquire on WhatsApp <ArrowRight size={15}/></a></div>{offer.imageUrl && <img src={offer.imageUrl} alt={offer.title}/>}</article>; })}</div></section>}
+    <section className="sk-section sk-products-section"><div className="sk-wrap"><div className="sk-section-head"><div><span className="sk-eyebrow">LATEST ARRIVALS</span><h2>New in the store<span>.</span></h2><p>Take a closer look at our latest products.</p></div><Link href="/shop-with-sidebar" className="sk-link">Shop all products <ArrowRight size={17}/></Link></div>{products.length ? <div className="sk-product-grid">{products.map((item) => <ProductItem key={item.id} item={item}/>)}</div> : <p>Products are temporarily unavailable. Please check back or contact our team.</p>}</div></section>
+    <section className="sk-section sk-wrap"><div className="sk-contact-panel"><div><span className="sk-eyebrow light">HERE WHEN YOU NEED US</span><h2>Technology is personal.<br/><em>So is our service.</em></h2><p>Looking for something specific or need help with your computer? Let’s find the right solution together.</p><a href="https://wa.me/256774077357" className="sk-btn sk-btn-light">Chat with us <ArrowRight size={18}/></a></div><div className="sk-contact-aside"><MapPin size={26}/><span>COME SAY HELLO</span><strong>University Plaza<br/>Room B09, Wandegeya</strong><a href="https://maps.app.goo.gl/mjNy3SSePaNxwkzw5?g_st=com.google.maps.preview.copy" target="_blank" rel="noreferrer">Get directions <ArrowRight size={16}/></a></div></div></section>
+  </main>;
+}

@@ -5,7 +5,7 @@ type InitialState = {
 };
 
 type FavouritesItem = {
-  id: number;
+  id: string | number;
   title: string;
   price: number;
   discountedPrice: number;
@@ -39,9 +39,7 @@ export const Favourites = createSlice({
       } = action.payload;
       const existingItem = state.items.find((item) => item.id === id);
 
-      if (existingItem) {
-        existingItem.quantity += quantity;
-      } else {
+      if (!existingItem) {
         state.items.push({
           id,
           title,
@@ -55,7 +53,11 @@ export const Favourites = createSlice({
       }
     },
 
-    removeItemFromFavourites: (state, action: PayloadAction<number>) => {
+    restoreFavourites: (state, action: PayloadAction<FavouritesItem[]>) => {
+      state.items = action.payload;
+    },
+
+    removeItemFromFavourites: (state, action: PayloadAction<string | number>) => {
       const itemId = action.payload;
       const index = state.items.findIndex((item) => item.id === itemId);
       if (index !== -1) {
@@ -71,6 +73,7 @@ export const Favourites = createSlice({
 
 export const {
   addItemToFavourites,
+  restoreFavourites,
   removeItemFromFavourites,
   removeAllItemsFromFavourites,
 } = Favourites.actions;

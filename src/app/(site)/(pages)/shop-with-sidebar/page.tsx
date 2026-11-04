@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ShopWithSidebar from "@/components/ShopWithSidebar";
 import { Metadata } from "next";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const ShopWithSidebarPage = () => {
   return (
     <main>
-      <ShopWithSidebar />
+      <Suspense fallback={<div>Loading shop…</div>}><ShopWithSidebar /></Suspense>
     </main>
   );
 };
