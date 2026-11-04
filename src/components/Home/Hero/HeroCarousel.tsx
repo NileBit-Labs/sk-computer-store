@@ -359,7 +359,7 @@ const HeroCarousel = () => {
 
   return (
     <div
-      className="relative overflow-hidden bg-white rounded-xl shadow-lg border border-[#00918e]"
+      className="relative overflow-hidden bg-white rounded-2xl"
       style={{ height: isMobile ? "400px" : "var(--hero-height, 450px)" }}
     >
       <div className="absolute inset-0 opacity-5">

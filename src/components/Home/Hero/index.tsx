@@ -42,7 +42,7 @@ const PromoCard = ({ product, openModal, handleQuickViewUpdate }) => {
       animate={{ opacity: 1, y: 0 }}
       // transition={{ duration: 0.5 }}
       whileHover={{ y: -5, scale: 1.02 }}
-      className="relative h-[215px] overflow-hidden rounded-2xl bg-gradient-to-br from-white to-orange-50 dark:from-gray-900 dark:to-orange-950 p-6 shadow-xl border-2 border-orange-500 dark:border-orange-600 group cursor-pointer"
+      className="relative h-[215px] overflow-hidden rounded-2xl bg-gradient-to-br from-white to-orange-50 p-6 shadow-md ring-1 ring-gray-200 hover:shadow-xl hover:ring-orange-300 transition-shadow group cursor-pointer"
       onClick={() => handleAddToCart(product)}
     >
       {/* Background Pattern */}
@@ -51,27 +51,27 @@ const PromoCard = ({ product, openModal, handleQuickViewUpdate }) => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-orange-400 to-pink-500 opacity-20 rounded-full blur-xl"></div>
-      <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-gradient-to-tr from-[#00918e] to-blue-400 opacity-20 rounded-full blur-xl"></div>
+      <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-300 opacity-20 rounded-full blur-2xl"></div>
+      <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-[#00918e] opacity-10 rounded-full blur-2xl"></div>
 
       {/* Content Container */}
       <div className="relative flex justify-between items-start gap-4 z-10 h-full">
         <div className="flex flex-col justify-between h-full">
           <div className="space-y-2">
             {/* Discount Badge */}
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300 shadow-md transform -rotate-2">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-orange-100 text-orange-800 shadow-sm">
               <span className="animate-pulse mr-1">🔥</span>
               {product.discount}% OFF
             </span>
 
             {/* Title */}
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight max-w-[200px]">
+            <h3 className="text-xl font-bold text-gray-900 leading-tight max-w-[200px] line-clamp-2">
               {product.title}
             </h3>
 
             {/* Price Section */}
             <div className="space-y-1">
-              <p className="text-sm font-medium text-orange-600 dark:text-orange-400 flex items-center">
+              <p className="text-sm font-medium text-orange-600 flex items-center">
                 <svg
                   className="w-4 h-4 mr-1"
                   fill="currentColor"
@@ -114,7 +114,7 @@ const PromoCard = ({ product, openModal, handleQuickViewUpdate }) => {
           //   },
           // }}
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 to-[#00918e] opacity-75 blur-lg rounded-full"></div>
+          <div className="absolute inset-4 bg-[#00918e]/15 blur-2xl rounded-full"></div>
           <div className="relative">
             <Image
               src={product.imageUrl}
@@ -164,17 +164,14 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative bg-gradient-to-b from-orange-50 via-white to-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 overflow-hidden py-16">
+    <section className="relative bg-gradient-to-b from-[#e6f4f4] via-[#f3f4f6] to-[#f3f4f6] overflow-hidden pt-6 pb-14 md:py-12">
       {/* Background Elements */}
-      <div className="absolute inset-0 max-w-full overflow-hidden">
-        <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-gradient-to-b from-orange-300 to-pink-300 dark:from-orange-800 dark:to-pink-900 rounded-full filter blur-3xl opacity-20 -z-10 animate-pulse-slow" />
-        <div className="absolute bottom-0 left-0 w-[700px] h-[700px] bg-gradient-to-t from-[#00918e]/30 to-[#00918e]/10 dark:from-[#00918e]/30 dark:to-[#00918e]/10 rounded-full filter blur-3xl opacity-30 -z-10 animate-pulse-slow" />
-        <div className="absolute top-1/4 left-1/4 w-12 h-12 bg-orange-500 opacity-20 rounded-full blur-md animate-float"></div>
-        <div className="absolute bottom-1/3 right-1/3 w-20 h-20 bg-[#00918e] opacity-10 rounded-full blur-lg animate-float-reverse"></div>
-        <div className="absolute top-1/2 right-1/4 w-8 h-8 bg-orange-300 opacity-20 rounded-full blur-sm animate-float-slow"></div>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#00918e]/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-orange-200/30 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -183,7 +180,7 @@ const Hero = () => {
         >
           {/* Main Carousel */}
           <motion.div variants={itemVariants} className="xl:col-span-2">
-            <div className="rounded-3xl overflow-hidden shadow-2xl border-2 border-[#00918e]">
+            <div className="rounded-2xl overflow-hidden shadow-lg">
               <HeroCarousel />
             </div>
           </motion.div>
@@ -202,7 +199,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Features Section */}
-        <motion.div variants={itemVariants} className="mt-16">
+        <motion.div variants={itemVariants} className="mt-10">
           <HeroFeature />
         </motion.div>
       </div>

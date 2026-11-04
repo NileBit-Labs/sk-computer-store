@@ -75,7 +75,11 @@ const ShopDetails = () => {
 
   const colors = ["red", "blue", "orange", "pink", "purple"];
 
-  const alreadyExist = localStorage.getItem("productDetails");
+  // localStorage only exists in the browser, not during server rendering
+  const alreadyExist =
+    typeof window !== "undefined"
+      ? localStorage.getItem("productDetails")
+      : null;
   const productFromStorage = useAppSelector(
     (state) => state.productDetailsReducer.value
   );

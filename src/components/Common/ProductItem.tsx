@@ -72,73 +72,59 @@ const ProductItem: React.FC<ProductItemProps> = ({ item }) => {
   return (
     <div
       onClick={handleNavigateToDetails}
-      className="group relative rounded-2xl bg-white transition-all duration-300 hover:shadow-2xl cursor-pointer
-                 p-5 md:p-4 w-full"
+      className="group relative flex h-full w-full cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white p-3 md:p-4
+                 transition-all duration-300 hover:-translate-y-1 hover:border-[#00918e]/40 hover:shadow-xl"
     >
-      <div className="relative mb-3 overflow-hidden rounded-xl bg-gradient-to-br from-[#00918e]/10 to-blue-50 p-0.5">
-        <div className="relative overflow-hidden rounded-xl bg-white">
-          <div className="block w-full">
-            <img
-              src={item.imageUrl}
-              alt={item.title}
-              className="h-[140px] md:h-[200px] w-full object-contain aspect-square p-2 md:p-4
-                       transition-all duration-700 ease-out group-hover:scale-105"
-            />
-          </div>
-          <div
-            className="absolute inset-0 flex items-end justify-center bg-gradient-to-t 
-                         from-gray-900/50 via-transparent to-transparent opacity-0 
-                         transition-all duration-300 group-hover:opacity-100"
-          >
-            <div className="mb-2 md:mb-4 flex items-center gap-2 md:gap-3 px-2 md:px-4">
-              <ActionButton
-                onClick={handleQuickView}
-                className="hover:text-[#00918e]"
-                ariaLabel="Quick view"
-                icon={<EyeIcon />}
-              />
+      <div className="relative mb-3 overflow-hidden rounded-xl bg-gray-50">
+        <img
+          src={item.imageUrl}
+          alt={item.title}
+          loading="lazy"
+          className="aspect-square h-[140px] w-full object-contain p-2 transition-transform duration-500 ease-out
+                     group-hover:scale-105 md:h-[200px] md:p-4"
+        />
 
-              <button
-                onClick={handleAddToCart}
-                className="inline-flex transform items-center gap-1 md:gap-2 rounded-lg 
-                          bg-[#00918e] px-3 md:px-5 py-1.5 md:py-2 text-xs md:text-sm
-                          font-medium text-white transition-all duration-200 
-                          hover:scale-105 hover:bg-[#013634]"
-              >
-                <span>Buy</span>
-                <CartIcon />
-              </button>
-
-              <ActionButton
-                onClick={handleAddToFavorites}
-                className="hover:text-rose-600"
-                ariaLabel="Add to favorites"
-                icon={<HeartIcon />}
-              />
-            </div>
-          </div>
+        {/* Quick view + favourite: always visible on touch screens, on hover for desktop */}
+        <div
+          className="absolute right-2 top-2 flex flex-col gap-2 transition-all duration-300
+                     md:translate-x-2 md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
+        >
+          <ActionButton
+            onClick={handleAddToFavorites}
+            className="hover:text-rose-600"
+            ariaLabel="Add to favourites"
+            icon={<HeartIcon />}
+          />
+          <ActionButton
+            onClick={handleQuickView}
+            className="hover:text-[#00918e]"
+            ariaLabel="Quick view"
+            icon={<EyeIcon />}
+          />
         </div>
       </div>
 
-      <div className="space-y-1">
-        <div
-          className="block w-full text-left"
-          onClick={handleNavigateToDetails}
+      <div className="flex flex-1 flex-col">
+        <h3
+          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-5 text-gray-900
+                     transition-colors duration-200 group-hover:text-[#00918e] md:min-h-[3rem] md:text-base md:leading-6"
         >
-          <h3
-            className="text-sm md:text-lg font-bold text-[#00918e] 
-                        transition-colors duration-200 hover:text-[#025250] 
-                        line-clamp-1 md:line-clamp-2"
-          >
-            {item.title}
-          </h3>
-        </div>
+          {item.title}
+        </h3>
 
-        <div className="flex items-center">
-          <span className="text-sm md:text-base font-medium text-gray-900">
-            {formatPrice(item.price)}
-          </span>
-        </div>
+        <p className="mt-1 text-base font-bold text-[#00918e] md:text-lg">
+          {formatPrice(item.price)}
+        </p>
+
+        <button
+          onClick={handleAddToCart}
+          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#00918e] px-3 py-2
+                     text-xs font-medium text-white transition-colors duration-200 hover:bg-[#007a78]
+                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00918e] focus-visible:ring-offset-2 md:text-sm"
+        >
+          <CartIcon />
+          <span>Order on WhatsApp</span>
+        </button>
       </div>
     </div>
   );

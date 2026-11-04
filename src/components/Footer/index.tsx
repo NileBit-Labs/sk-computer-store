@@ -45,7 +45,7 @@ const Footer = () => {
                   Opposite Getwell Pharmacy
                 </a>
               </div>
-              <div className="flex items-start gap-3 text-sm text-white p-4 bg-gray-800 rounded-lg max-w-xs">
+              <div className="flex items-start gap-3 text-sm text-white p-4 bg-white/10 rounded-lg max-w-xs">
                 <Phone size={18} className="text-teal-200 flex-shrink-0 mt-1" />
 
                 <div className="flex flex-col gap-2">

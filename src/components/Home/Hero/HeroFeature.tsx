@@ -10,7 +10,7 @@ const featureData = [
   {
     img: "/images/icons/icon-03.svg",
     title: "100% Secure Payments",
-    description: "Gurantee secure payments",
+    description: "Guaranteed secure payments",
   },
   {
     img: "/images/icons/icon-04.svg",
@@ -21,15 +21,20 @@ const featureData = [
 
 const HeroFeature = () => {
   return (
-    <div className="max-w-[1060px] w-full mx-auto px-4 sm:px-8 xl:px-0 ">
-      <div className="flex flex-wrap items-center justify-center gap-7.5 xl:gap-12.5 mt-10 pb-4 border-b border-gray-3">
+    <div className="max-w-[1170px] w-full mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {featureData.map((item, key) => (
-          <div className="flex items-center gap-4" key={key}>
-            <Image src={item.img} alt="icons" width={40} height={41} />
+          <div
+            className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200 transition-shadow duration-300 hover:shadow-md"
+            key={key}
+          >
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#00918e]/10">
+              <Image src={item.img} alt="" width={28} height={28} />
+            </div>
 
             <div>
-              <h3 className="font-medium text-lg text-dark">{item.title}</h3>
-              <p className="text-sm">{item.description}</p>
+              <h3 className="font-semibold text-base text-gray-900">{item.title}</h3>
+              <p className="text-sm text-gray-500">{item.description}</p>
             </div>
           </div>
         ))}
